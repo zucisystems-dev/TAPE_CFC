@@ -1,0 +1,36 @@
+{
+	"ECS_TEST": [
+		{
+			"automationId": "TC01_logInToECSWithValidID",
+			"username": "liliiatest3082",
+			"password": "Password2!"
+		},
+		{
+			"automationId": "TC02_logInToECSWithInvalidID",
+			"username": "tfukuhok",
+			"password": "wrongpass"
+		},
+		{
+			"automationId": "TC03_navigateToMakeAPaymentPage",
+			"username": "liliiatest3082",
+			"password": "Password2!"
+		},
+		{
+			"automationId": "TC04_navigateToAutoPayPage",
+			"username": "liliiatest3082",
+			"password": "Password2!"
+		},
+		{
+			"automationId": "TC05_navigateToStatementsPage",
+			"username": "liliiatest3082",
+			"password": "Password2!"
+		}
+	],
+	"ECS_QA": [
+		{
+			"automationId": "TC003_PasswordReset",
+			"email": "user3@example.com",
+			"resetLinkSent": true
+		}
+	]
+}

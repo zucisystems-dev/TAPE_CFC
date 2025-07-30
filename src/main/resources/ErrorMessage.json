@@ -1,0 +1,15 @@
+{
+	"NoSuchElementException": "Element not found on screen.",
+	"ElementNotVisibleException": "Element is not visible.",
+	"ElementNotInteractableException": "Element cannot be interacted with.",
+	"StaleElementReferenceException": "Page changed during interaction.",
+	"TimeoutException": "Element or Page took too long to load.",
+	"WebDriverException": "Browser failed during test run.",
+	"InvalidSelectorException": "Invalid locator used in test.",
+	"SessionNotCreatedException": "Browser session could not start.",
+	"IllegalStateException": "Driver not configured properly.",
+	"AssertionError": "Expected result did not match.",
+	"NullPointerException": "Object was not initialized.",
+	"FileNotFoundException": "Required file is missing.",
+	"IOException": "Error reading or writing file."
+}

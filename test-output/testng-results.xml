@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2025-07-30T17:14:03 IST" name="Regression Suite" finished-at="2025-07-30T17:15:55 IST" duration-ms="112278">
+    <groups>
+    </groups>
+    <test started-at="2025-07-30T17:14:03 IST" name="Navigate Statement tests" finished-at="2025-07-30T17:15:33 IST" duration-ms="90863">
+      <class name="tests.web.ECSScripts">
+        <test-method is-config="true" signature="setupReport(java.lang.String)[pri:0, instance:tests.web.ECSScripts@1acaf3d]" started-at="2025-07-30T17:14:02 IST" name="setupReport" finished-at="2025-07-30T17:14:03 IST" duration-ms="207" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[ECS_TEST]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupReport -->
+        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method,org.testng.ITestContext)[pri:0, instance:tests.web.ECSScripts@1acaf3d]" started-at="2025-07-30T17:14:03 IST" name="beforeMethod" finished-at="2025-07-30T17:14:32 IST" duration-ms="28948" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC05_navigateToStatementsPage(java.util.Map)]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[org.testng.TestRunner@50cf5a23]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC05_navigateToStatementsPage(java.util.Map)[pri:0, instance:tests.web.ECSScripts@1acaf3d]" started-at="2025-07-30T17:14:32 IST" name="TC05_navigateToStatementsPage" description="Verify if user is able to navigate to Auto Pay page" data-provider="ecsDataProvider" finished-at="2025-07-30T17:15:26 IST" duration-ms="54158" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[{automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082}]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC05_navigateToStatementsPage -->
+        <test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:tests.web.ECSScripts@1acaf3d]" started-at="2025-07-30T17:15:26 IST" name="afterMethod" finished-at="2025-07-30T17:15:33 IST" duration-ms="7559" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=TC05_navigateToStatementsPage status=SUCCESS method=ECSScripts.TC05_navigateToStatementsPage(java.util.Map)[pri:0, instance:tests.web.ECSScripts@1acaf3d] output={null}]]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC05_navigateToStatementsPage(java.util.Map)]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="tearDownReport()[pri:0, instance:tests.web.ECSScripts@1acaf3d]" started-at="2025-07-30T17:15:55 IST" name="tearDownReport" finished-at="2025-07-30T17:15:57 IST" duration-ms="1594" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownReport -->
+      </class> <!-- tests.web.ECSScripts -->
+    </test> <!-- Navigate Statement tests -->
+    <test started-at="2025-07-30T17:14:03 IST" name="Navigate Make A Payment tests" finished-at="2025-07-30T17:15:33 IST" duration-ms="90862">
+      <class name="tests.web.ECSScripts">
+        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method,org.testng.ITestContext)[pri:0, instance:tests.web.ECSScripts@3ddc6915]" started-at="2025-07-30T17:14:03 IST" name="beforeMethod" finished-at="2025-07-30T17:14:25 IST" duration-ms="22665" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC03_navigateToMakeAPaymentPage(java.util.Map)]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[org.testng.TestRunner@6650813a]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC03_navigateToMakeAPaymentPage(java.util.Map)[pri:0, instance:tests.web.ECSScripts@3ddc6915]" started-at="2025-07-30T17:14:25 IST" name="TC03_navigateToMakeAPaymentPage" description="Verify if user is able to navigate to Make A Payment page" data-provider="ecsDataProvider" finished-at="2025-07-30T17:15:25 IST" duration-ms="59550" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[{automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082}]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC03_navigateToMakeAPaymentPage -->
+        <test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:tests.web.ECSScripts@3ddc6915]" started-at="2025-07-30T17:15:25 IST" name="afterMethod" finished-at="2025-07-30T17:15:33 IST" duration-ms="8424" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=TC03_navigateToMakeAPaymentPage status=SUCCESS method=ECSScripts.TC03_navigateToMakeAPaymentPage(java.util.Map)[pri:0, instance:tests.web.ECSScripts@3ddc6915] output={null}]]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC03_navigateToMakeAPaymentPage(java.util.Map)]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+      </class> <!-- tests.web.ECSScripts -->
+    </test> <!-- Navigate Make A Payment tests -->
+    <test started-at="2025-07-30T17:14:03 IST" name="Navigate Auto Pay tests" finished-at="2025-07-30T17:15:38 IST" duration-ms="95301">
+      <class name="tests.web.ECSScripts">
+        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method,org.testng.ITestContext)[pri:0, instance:tests.web.ECSScripts@379614be]" started-at="2025-07-30T17:14:03 IST" name="beforeMethod" finished-at="2025-07-30T17:14:42 IST" duration-ms="39429" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC04_navigateToAutoPayPage(java.util.Map)]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[org.testng.TestRunner@44ea608c]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC04_navigateToAutoPayPage(java.util.Map)[pri:0, instance:tests.web.ECSScripts@379614be]" started-at="2025-07-30T17:14:42 IST" name="TC04_navigateToAutoPayPage" description="Verify if user is able to navigate to Auto Pay page" data-provider="ecsDataProvider" finished-at="2025-07-30T17:15:36 IST" duration-ms="53963" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[{automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082}]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC04_navigateToAutoPayPage -->
+        <test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:tests.web.ECSScripts@379614be]" started-at="2025-07-30T17:15:36 IST" name="afterMethod" finished-at="2025-07-30T17:15:38 IST" duration-ms="1707" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=TC04_navigateToAutoPayPage status=SUCCESS method=ECSScripts.TC04_navigateToAutoPayPage(java.util.Map)[pri:0, instance:tests.web.ECSScripts@379614be] output={null}]]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC04_navigateToAutoPayPage(java.util.Map)]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+      </class> <!-- tests.web.ECSScripts -->
+    </test> <!-- Navigate Auto Pay tests -->
+    <test started-at="2025-07-30T17:14:03 IST" name="LogIn tests" finished-at="2025-07-30T17:15:55 IST" duration-ms="112278">
+      <class name="tests.web.ECSScripts">
+        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method,org.testng.ITestContext)[pri:0, instance:tests.web.ECSScripts@f627d13]" started-at="2025-07-30T17:14:03 IST" name="beforeMethod" finished-at="2025-07-30T17:14:43 IST" duration-ms="39890" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC01_logInToECSWithValidID(java.util.Map)]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[org.testng.TestRunner@38d5b107]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC01_logInToECSWithValidID(java.util.Map)[pri:0, instance:tests.web.ECSScripts@f627d13]" started-at="2025-07-30T17:14:43 IST" name="TC01_logInToECSWithValidID" description="Verify login using valid credentials" data-provider="ecsDataProvider" finished-at="2025-07-30T17:15:31 IST" duration-ms="48008" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[{automationId=TC01_logInToECSWithValidID, password=Password2!, username=liliiatest3082}]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC01_logInToECSWithValidID -->
+        <test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:tests.web.ECSScripts@f627d13]" started-at="2025-07-30T17:15:31 IST" name="afterMethod" finished-at="2025-07-30T17:15:34 IST" duration-ms="3091" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=TC01_logInToECSWithValidID status=SUCCESS method=ECSScripts.TC01_logInToECSWithValidID(java.util.Map)[pri:0, instance:tests.web.ECSScripts@f627d13] output={null}]]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC01_logInToECSWithValidID(java.util.Map)]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method,org.testng.ITestContext)[pri:0, instance:tests.web.ECSScripts@f627d13]" started-at="2025-07-30T17:15:34 IST" name="beforeMethod" finished-at="2025-07-30T17:15:47 IST" duration-ms="13430" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC02_logInToECSWithInvalidID(java.util.Map)]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[org.testng.TestRunner@38d5b107]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC02_logInToECSWithInvalidID(java.util.Map)[pri:0, instance:tests.web.ECSScripts@f627d13]" started-at="2025-07-30T17:15:47 IST" name="TC02_logInToECSWithInvalidID" description="Verify login using Invalid credentials" data-provider="ecsDataProvider" finished-at="2025-07-30T17:15:53 IST" depends-on-methods="tests.web.ECSScripts.TC01_logInToECSWithValidID" duration-ms="6107" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[{automationId=TC02_logInToECSWithInvalidID, password=wrongpass, username=tfukuhok}]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC02_logInToECSWithInvalidID -->
+        <test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:tests.web.ECSScripts@f627d13]" started-at="2025-07-30T17:15:53 IST" name="afterMethod" finished-at="2025-07-30T17:15:55 IST" duration-ms="1522" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=TC02_logInToECSWithInvalidID status=SUCCESS method=ECSScripts.TC02_logInToECSWithInvalidID(java.util.Map)[pri:0, instance:tests.web.ECSScripts@f627d13] output={null}]]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[public void tests.web.ECSScripts.TC02_logInToECSWithInvalidID(java.util.Map)]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+      </class> <!-- tests.web.ECSScripts -->
+    </test> <!-- LogIn tests -->
+  </suite> <!-- Regression Suite -->
+</testng-results>

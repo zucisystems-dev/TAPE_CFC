@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ECS Test Suite" parallel="tests" thread-count="4">
+    <parameter name="env" value="ECS_TEST"/>
+    <parameter name="browser" value="Chrome"/>
+    <test name="LogIn tests">
+        <classes>
+            <class name="tests.web.ECSScripts">
+                <methods>
+                    <include name="TC01_logInToECSWithValidID"/>
+                    <include name="TC02_logInToECSWithInvalidID"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Navigate Make A Payment tests">
+        <classes>
+            <class name="tests.web.ECSScripts">
+                <methods>
+                    <include name="TC03_navigateToMakeAPaymentPage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Navigate Auto Pay tests">
+        <classes>
+            <class name="tests.web.ECSScripts">
+                <methods>
+                    <include name="TC04_navigateToAutoPayPage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Navigate Statement tests">
+        <classes>
+            <class name="tests.web.ECSScripts">
+                <methods>
+                    <include name="TC05_navigateToStatementsPage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
