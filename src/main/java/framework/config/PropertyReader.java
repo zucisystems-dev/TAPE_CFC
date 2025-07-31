@@ -98,4 +98,28 @@ public class PropertyReader {
 		return returnText;
 
 	}
+
+	public static String readDynamicProperty(String fileName, String key) {
+		FileInputStream fileInput = null;
+		String returnText = "";
+		try {
+			File file = new File("src/main/resources/properties/" + fileName +".properties");
+			fileInput = new FileInputStream(file);
+			Properties properties = new Properties();
+			properties.load(fileInput);
+			returnText = properties.getProperty(key);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fileInput != null) {
+					fileInput.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return returnText;
+	}
 }

@@ -48,12 +48,10 @@ public class WebActions extends TestBase {
 
     public static void waitTillElementVisible(WebElement ele) {
         DriverFactory.getWait().until(ExpectedConditions.visibilityOf(ele));
-
     }
 
     public static void waitTillElementClickable(WebElement ele) {
         DriverFactory.getWait().until(ExpectedConditions.elementToBeClickable(ele));
-
     }
 
     public static void logMessageInReport(String message){
@@ -187,6 +185,7 @@ public class WebActions extends TestBase {
     public static void clickElement(WebElement element, String message){
         waitTillElementClickable(element);
         element.click();
+        logMessageInReport(message);
     }
 
     public static void doubleClickElement(WebElement element) {

@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import static framework.utils.ScreenShotUtil.captureScreenshot;
 public class TestBase {
 
     public static String url = "";
+    public static ThreadLocal<Long> startTime = new ThreadLocal<>();
+    public static long endTime;
 
     @BeforeSuite(alwaysRun = true)
     @Parameters("env")
@@ -31,6 +34,7 @@ public class TestBase {
     public void beforeMethod(Method method, ITestContext context) {
         String browserName = context.getCurrentXmlTest().getParameter("browser");
         System.out.println("Before Method: Opening browser...");
+        startTime.set(System.currentTimeMillis());
         ExtentTest test = ExtentReport.getExtent().createTest(method.getName());
         ExtentReport.setTest(test);
         DriverFactory.setDriver(browserName, System.getProperty("os.name"));
@@ -86,7 +90,12 @@ public class TestBase {
                 System.err.println("Error during driver quit: " + e.getMessage());
                 e.printStackTrace();
             }
-
+            try {
+                calculateExecutionTime(method);
+            } catch (Exception e) {
+                System.err.println("Error in calculateExecutionTime: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -107,6 +116,24 @@ public class TestBase {
 
     public static void clear() {
         testDataThreadLocal.remove();
+    }
+
+    public static void calculateExecutionTime(Method method){
+        if (startTime.get() == null) {
+            System.out.printf("Start time was null for test [%s]%n", method.getName());
+        }
+        endTime = System.currentTimeMillis();
+        long duration = endTime - startTime.get();
+        long seconds = duration / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+
+        seconds = seconds % 60;
+        minutes = minutes % 60;
+
+        System.out.printf(method.getName() + " - Test Execution Time : %02dh:%02dm:%02ds%n", hours, minutes, seconds);
+
+        startTime.remove();
     }
 
 }

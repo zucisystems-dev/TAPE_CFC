@@ -10,6 +10,11 @@ import java.io.*;
 import java.util.*;
 public class TestNGXMLGenerator {
 
+    static String appName = AppConfigUtil.getAppName();
+    static String[] suiteArray = appName.split("_");
+    static String appModule = suiteArray[0];
+    static String suiteType = suiteArray[1];
+
     static class TestCaseData {
         String suiteName;
         String testName;
@@ -46,7 +51,9 @@ public class TestNGXMLGenerator {
         List<TestCaseData> data = new ArrayList<>();
         FileInputStream fis = new FileInputStream(path);
         Workbook workbook = new XSSFWorkbook(fis);
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet;
+        sheet = workbook.getSheet(appModule);
+
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
@@ -62,7 +69,6 @@ public class TestNGXMLGenerator {
                     row.getCell(7).getStringCellValue()
             ));
         }
-
         workbook.close();
         fis.close();
         return data;
@@ -70,7 +76,7 @@ public class TestNGXMLGenerator {
 
     static XmlSuite buildSuite(List<TestCaseData> data) {
         XmlSuite suite = new XmlSuite();
-        suite.setName("Regression Suite");
+        suite.setName(appModule + " " + suiteType + " " + "Suite");
         suite.setParallel(XmlSuite.ParallelMode.TESTS);
         suite.setThreadCount(4);
         suite.addListener("framework.listeners.DynamicDependencyTransformer");
@@ -79,7 +85,7 @@ public class TestNGXMLGenerator {
         Map<String, String> testParams = new LinkedHashMap<>();
 
         for (TestCaseData row : data) {
-            if (!"Y".equalsIgnoreCase(row.executeFlag)) continue;
+            if (!"Y".equalsIgnoreCase(row.executeFlag) || !row.suiteName.contains(suiteType)) continue;
 
             testMap
                     .computeIfAbsent(row.testName, k -> new LinkedHashMap<>())

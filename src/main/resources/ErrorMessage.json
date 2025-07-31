@@ -2,6 +2,7 @@
 	"NoSuchElementException": "Element not found on screen.",
 	"ElementNotVisibleException": "Element is not visible.",
 	"ElementNotInteractableException": "Element cannot be interacted with.",
+	"ElementClickInterceptedException": "Element action got intercepted",
 	"StaleElementReferenceException": "Page changed during interaction.",
 	"TimeoutException": "Element or Page took too long to load.",
 	"WebDriverException": "Browser failed during test run.",

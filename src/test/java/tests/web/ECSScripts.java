@@ -13,6 +13,7 @@ public class ECSScripts extends TestBase {
     public void TC01_logInToECSWithValidID(Map<String, String> data) {
         setTestData(data);
 
+        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -23,6 +24,7 @@ public class ECSScripts extends TestBase {
     public void TC02_logInToECSWithInvalidID(Map<String, String> data) {
         setTestData(data);
 
+        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectLoginPage().validateInvalidCredentialsMessage();
@@ -32,6 +34,7 @@ public class ECSScripts extends TestBase {
     public void TC03_navigateToMakeAPaymentPage(Map<String, String> data) {
         setTestData(data);
 
+        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -43,6 +46,7 @@ public class ECSScripts extends TestBase {
     public void TC04_navigateToAutoPayPage(Map<String, String> data) {
         setTestData(data);
 
+        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -54,6 +58,7 @@ public class ECSScripts extends TestBase {
     public void TC05_navigateToStatementsPage(Map<String, String> data) {
         setTestData(data);
 
+        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();

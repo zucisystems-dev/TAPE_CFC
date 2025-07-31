@@ -2,10 +2,13 @@ package app.web.ECS;
 
 import framework.utils.WebActions;
 import com.aventstack.extentreports.Status;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
 
@@ -39,6 +42,9 @@ public class ECSLoginPage extends WebActions {
 
     @FindBy(xpath = "//p[contains(text(),'Invalid Username or Password.')]")
     WebElement titleInvalidCredentials;
+
+    @FindBy(xpath = "//button[normalize-space() = 'PROCEED TO LOGIN']")
+    WebElement btnProceedLogin;
 
     public ECSLoginPage(WebDriver driver){
         this.driver = driver;
@@ -91,6 +97,20 @@ public class ECSLoginPage extends WebActions {
         }
         else{
             captureScreenshot(Status.FAIL,"Invalid Username or Password message is not displayed");
+        }
+    }
+
+    public void handleProceedToLogin(){
+        try {
+            waitTillElementVisible(btnProceedLogin);
+            if(btnProceedLogin.isDisplayed()) {
+                scrolltoElement(btnProceedLogin);
+                waitTillElementClickable(btnProceedLogin);
+                clickElement(btnProceedLogin, "Proceed To Login button is clicked");
+                System.out.println("Optional element appeared and was clicked.");
+            }
+        } catch (TimeoutException e) {
+            System.out.println("Optional element did not appear.");
         }
     }
 }
