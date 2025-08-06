@@ -14,67 +14,120 @@ public class TestNGXMLGenerator {
     static String[] suiteArray = appName.split("_");
     static String appModule = suiteArray[0];
     static String suiteType = suiteArray[1];
+    private final String suiteName;
+    private final String testName;
+    private final String className;
+    private final String testCaseID;
+    private final String methodName;
+    private final String[] paramName;
+    private final String[] paramValue;
+    private final String executeFlag;
 
-    static class TestCaseData {
-        String suiteName;
-        String testName;
-        String className;
-        String testCaseID;
-        String methodName;
-        String[] paramName;
-        String[] paramValue;
-        String executeFlag;
+    private TestNGXMLGenerator(Builder builder){
+        suiteName = builder.suiteName;
+        testName = builder.testName;
+        className = builder.className;
+        testCaseID = builder.testCaseID;
+        methodName = builder.methodName;
+        paramName = builder.paramName;
+        paramValue = builder.paramValue;
+        executeFlag = builder.executeFlag;
+    }
 
-        public TestCaseData(String suiteName, String testName, String className,String testCaseID, String methodName,
-                            String[] paramName, String[] paramValue, String executeFlag) {
+    public static class Builder {
+        private String suiteName;
+        private String testName;
+        private String className;
+        private String testCaseID;
+        private String methodName;
+        private String[] paramName;
+        private String[] paramValue;
+        private String executeFlag;
+
+        public Builder setSuiteName(String suiteName){
             this.suiteName = suiteName;
-            this.testName = testName;
-            this.className = className;
-            this.testCaseID = testCaseID;
-            this.methodName = methodName;
-            this.paramName = paramName;
-            this.paramValue = paramValue;
-            this.executeFlag = executeFlag;
+            return this;
         }
+
+        public Builder setTestName(String testName){
+            this.testName = testName;
+            return this;
+        }
+
+        public Builder setClassName(String className){
+            this.className = className;
+            return this;
+        }
+
+        public Builder setTestCaseID(String testCaseID){
+            this.testCaseID = testCaseID;
+            return this;
+        }
+
+        public Builder setMethodName(String methodName){
+            this.methodName = methodName;
+            return this;
+        }
+
+        public Builder setParamName(String[] paramName){
+            this.paramName = paramName;
+            return this;
+        }
+
+        public Builder setParamValue(String[] paramValue){
+            this.paramValue = paramValue;
+            return this;
+        }
+
+        public Builder setExecuteFlag(String executeFlag){
+            this.executeFlag = executeFlag;
+            return this;
+        }
+
+        public TestNGXMLGenerator build() {
+            return new TestNGXMLGenerator(this);
+        }
+
     }
 
     public static void main(String[] args) throws Exception {
         String outputPath = "generated.xml";
         String path = PropertyReader.readProperty("testNGPath");
-        List<TestCaseData> testData = readExcel(path);
+        List<TestNGXMLGenerator> testData = readExcel(path);
         XmlSuite suite = buildSuite(testData);
         TestNGXMLGenerator.writeSuiteToXmlFile(suite, outputPath);
         runSuite(suite);
     }
 
-    static List<TestCaseData> readExcel(String path) throws Exception {
-        List<TestCaseData> data = new ArrayList<>();
-        FileInputStream fis = new FileInputStream(path);
-        Workbook workbook = new XSSFWorkbook(fis);
-        Sheet sheet;
-        sheet = workbook.getSheet(appModule);
+    static List<TestNGXMLGenerator> readExcel(String path) throws Exception {
+        List<TestNGXMLGenerator> data = new ArrayList<>();
+        try(FileInputStream fis = new FileInputStream(path)) {
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet;
+            sheet = workbook.getSheet(appModule);
 
-
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-            Row row = sheet.getRow(i);
-            if (row == null) continue;
-            data.add(new TestCaseData(
-                    row.getCell(0).getStringCellValue(),
-                    row.getCell(1).getStringCellValue(),
-                    row.getCell(2).getStringCellValue(),
-                    row.getCell(3).getStringCellValue(),
-                    row.getCell(4).getStringCellValue(),
-                    row.getCell(5).getStringCellValue().split(","),
-                    row.getCell(6).getStringCellValue().split(","),
-                    row.getCell(7).getStringCellValue()
-            ));
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+                data.add(new TestNGXMLGenerator.Builder()
+                                .setSuiteName(row.getCell(0).getStringCellValue())
+                                        .setTestName(row.getCell(1).getStringCellValue())
+                                                .setClassName(row.getCell(2).getStringCellValue())
+                                                        .setTestCaseID(row.getCell(3).getStringCellValue())
+                                                                .setMethodName(row.getCell(4).getStringCellValue())
+                                                                        .setParamName(row.getCell(5).getStringCellValue().split(","))
+                                                                                .setParamValue(row.getCell(6).getStringCellValue().split(","))
+                                                                                        .setExecuteFlag(row.getCell(7).getStringCellValue()).build());
+            }
+            workbook.close();
         }
-        workbook.close();
-        fis.close();
+        catch (IOException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
-    static XmlSuite buildSuite(List<TestCaseData> data) {
+    static XmlSuite buildSuite(List<TestNGXMLGenerator> data) {
         XmlSuite suite = new XmlSuite();
         suite.setName(appModule + " " + suiteType + " " + "Suite");
         suite.setParallel(XmlSuite.ParallelMode.TESTS);
@@ -84,7 +137,7 @@ public class TestNGXMLGenerator {
         Map<String, Map<String, List<String>>> testMap = new LinkedHashMap<>();
         Map<String, String> testParams = new LinkedHashMap<>();
 
-        for (TestCaseData row : data) {
+        for (TestNGXMLGenerator row : data) {
             if (!"Y".equalsIgnoreCase(row.executeFlag) || !row.suiteName.contains(suiteType)) continue;
 
             testMap
@@ -100,8 +153,6 @@ public class TestNGXMLGenerator {
         for (String testName : testMap.keySet()) {
             XmlTest xmlTest = new XmlTest(suite);
             xmlTest.setName(testName);
-            xmlTest.setParallel(XmlSuite.ParallelMode.NONE);
-            xmlTest.setThreadCount(-1);
 
             List<XmlClass> xmlClasses = new ArrayList<>();
             for (Map.Entry<String, List<String>> classEntry : testMap.get(testName).entrySet()) {

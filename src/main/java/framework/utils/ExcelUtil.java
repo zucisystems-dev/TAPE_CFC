@@ -14,6 +14,10 @@ import java.util.Map;
 
 public class ExcelUtil {
 
+    private ExcelUtil(){
+        throw new UnsupportedOperationException("Excel Util class — do not instantiate.");
+    }
+
         public static Map<String, List<String>> getDependencies(String filePath) {
             Map<String, List<String>> dependencies = new HashMap<>();
 

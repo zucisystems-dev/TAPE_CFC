@@ -8,6 +8,10 @@ import java.util.Properties;
 
 public class PropertyReader {
 
+	private PropertyReader(){
+		throw new UnsupportedOperationException("Property Reader class — do not instantiate.");
+	}
+
 	/**
 	 * This method is used to read data from config properties.
 	 * 
@@ -15,25 +19,15 @@ public class PropertyReader {
 	 * @return
 	 */
 	public static String readProperty(String key) {
-		FileInputStream fileInput = null;
 		String returnText = "";
-		try {
-			File file = new File("src/main/resources/properties/config.properties");
-			fileInput = new FileInputStream(file);
+		File file = new File("src/main/resources/properties/config.properties");
+		try (FileInputStream fileInput = new FileInputStream(file)){
 			Properties properties = new Properties();
 			properties.load(fileInput);
 			returnText = properties.getProperty(key);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (fileInput != null) {
-					fileInput.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		return returnText;
 	}
@@ -74,51 +68,31 @@ public class PropertyReader {
 
 		String[] envArray = env.split("_");
 		String returnText = null;
-		FileInputStream fileInput = null;
 		String propertyName = envArray[0];
 		String key = envArray[1];
-		try {
-			String file = System.getProperty("user.dir") + File.separator + "src/main/resources/properties" + File.separator + propertyName + ".properties";
-			fileInput = new FileInputStream(file);
+		String file = System.getProperty("user.dir") + File.separator + "src/main/resources/properties" + File.separator + propertyName + ".properties";
+		try (FileInputStream fileInput = new FileInputStream(file);){
 			Properties properties = new Properties();
 			properties.load(fileInput);
 			returnText = properties.getProperty(key);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (fileInput != null) {
-					fileInput.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		return returnText;
 
 	}
 
 	public static String readDynamicProperty(String fileName, String key) {
-		FileInputStream fileInput = null;
+		File file = new File("src/main/resources/properties/" + fileName +".properties");
 		String returnText = "";
-		try {
-			File file = new File("src/main/resources/properties/" + fileName +".properties");
-			fileInput = new FileInputStream(file);
+		try(FileInputStream fileInput = new FileInputStream(file)) {
 			Properties properties = new Properties();
 			properties.load(fileInput);
 			returnText = properties.getProperty(key);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (fileInput != null) {
-					fileInput.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		return returnText;
 	}

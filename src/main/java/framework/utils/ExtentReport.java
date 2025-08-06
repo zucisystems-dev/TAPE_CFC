@@ -14,6 +14,10 @@ public class ExtentReport {
     private static ExtentReports extent;
     public static String today = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
+    private ExtentReport(){
+        throw new UnsupportedOperationException("Extent Report class — do not instantiate.");
+    }
+
     public static void setTest(ExtentTest test) {
         extentTestThread.set(test);
     }
@@ -21,6 +25,8 @@ public class ExtentReport {
     public static ExtentTest getTest() {
         return extentTestThread.get();
     }
+
+    public static void removeTest(){ extentTestThread.remove();}
 
     public static ExtentReports getInstance(String app) {
         if (extent == null) {

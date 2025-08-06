@@ -3,6 +3,11 @@ package framework.utils;
 import framework.config.PropertyReader;
 
 public class AppConfigUtil {
+
+    private AppConfigUtil(){
+        throw new UnsupportedOperationException("App Config Util class — do not instantiate.");
+    }
+
     public static String getAppName() {
         String appName = System.getProperty("appName");
         if (appName != null && !appName.trim().isEmpty()) {

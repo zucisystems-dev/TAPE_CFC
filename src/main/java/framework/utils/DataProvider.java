@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.ITestContext;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,8 +28,8 @@ public class DataProvider {
         return System.getProperty("user.dir") + "/src/test/java/testData/" + browser + "/" + className + ".json";
     }
 
-    @org.testng.annotations.DataProvider(name = "ecsDataProvider", parallel = true)
-    public Object[][] getTestData(Method method, ITestContext context) throws Exception {
+    @org.testng.annotations.DataProvider(name = "commonDataProvider", parallel = true)
+    public Object[][] getTestData(Method method, ITestContext context)  {
         String groupName = context.getCurrentXmlTest().getParameter("env");
         String browser = context.getCurrentXmlTest().getParameter("browser");
         String scriptId = method.getName();
@@ -40,10 +38,20 @@ public class DataProvider {
         String path = getJsonPath(browser,testClass);
 
         ObjectMapper mapper = new ObjectMapper();
-        InputStream is = new FileInputStream(new File(path));
+        InputStream is = null;
+        try {
+            is = new FileInputStream(new File(path));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Map<String, List<Map<String, Object>>> fullData =
-                mapper.readValue(is, new TypeReference<Map<String, List<Map<String, Object>>>>() {});
+                null;
+        try {
+            fullData = mapper.readValue(is, new TypeReference<Map<String, List<Map<String, Object>>>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         List<Map<String, Object>> rawList = fullData.getOrDefault(groupName, Collections.emptyList());
 
@@ -59,6 +67,10 @@ public class DataProvider {
                             e -> e.getValue() == null ? null : e.getValue().toString()
                     ));
             finalList.add(converted);
+        }
+
+        if (finalList.isEmpty()) {
+            throw new RuntimeException("No test data found for method: " + scriptId + " in env: " + groupName);
         }
 
         Object[][] result = new Object[finalList.size()][1];

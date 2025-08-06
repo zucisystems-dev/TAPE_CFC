@@ -11,6 +11,10 @@ import java.util.Map;
 public class ExceptionMessageLoader {
     private static Map<String, String> exceptionMap = new HashMap<>();
 
+    private ExceptionMessageLoader(){
+        throw new UnsupportedOperationException("Exception Message class — do not instantiate.");
+    }
+
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();

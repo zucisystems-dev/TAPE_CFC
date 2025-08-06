@@ -2,6 +2,7 @@ package framework.base;
 
 
 import app.web.ECS.*;
+import framework.api.RestApi;
 import org.openqa.selenium.WebDriver;
 
 public class PageObjectInitiator {
@@ -11,6 +12,11 @@ public class PageObjectInitiator {
     static ThreadLocal<ECSMakePaymentPage> ECS_MAKEPAYMENT_PAGE = new ThreadLocal<ECSMakePaymentPage>();
     static ThreadLocal<ECSAutoPayPage> ECS_AUTOPAY_PAGE = new ThreadLocal<ECSAutoPayPage>();
     static ThreadLocal<ECSStatementsPage> ECS_STATEMENTS_PAGE = new ThreadLocal<ECSStatementsPage>();
+    static ThreadLocal<RestApi> REST_API = new ThreadLocal<>();
+
+    private PageObjectInitiator(){
+        throw new UnsupportedOperationException("Object Initiator class — do not instantiate.");
+    }
 
     public static void objectInitiator(WebDriver driver){
         ECS_LOGIN_PAGE.set(new ECSLoginPage(driver));
@@ -18,6 +24,10 @@ public class PageObjectInitiator {
         ECS_MAKEPAYMENT_PAGE.set(new ECSMakePaymentPage(driver));
         ECS_AUTOPAY_PAGE.set(new ECSAutoPayPage(driver));
         ECS_STATEMENTS_PAGE.set(new ECSStatementsPage(driver));
+    }
+
+    public static void apiObjectInitiator(){
+        REST_API.set(new RestApi());
     }
 
     public static ECSLoginPage getObjectLoginPage(){
@@ -38,6 +48,10 @@ public class PageObjectInitiator {
 
     public static ECSStatementsPage getObjectStatementsPage(){
         return ECS_STATEMENTS_PAGE.get();
+    }
+
+    public static RestApi getObjectRestApi(){
+        return REST_API.get();
     }
 
 }

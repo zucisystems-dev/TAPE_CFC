@@ -1,0 +1,14 @@
+{
+	"createUser": {
+		"payload": {
+			"name": "${name}",
+			"job": "${job}"
+		}
+	},
+	"updateUser" : {
+		"payload" : {
+			"name": "${name}",
+			"job": "${job}"
+		}
+	}
+}

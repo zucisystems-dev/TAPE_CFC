@@ -9,8 +9,9 @@ import java.util.Map;
 
 public class ECSScripts extends TestBase {
 
-    @Test(description = "Verify login using valid credentials", dataProvider = "ecsDataProvider", dataProviderClass = DataProvider.class)
+    @Test(description = "Verify login using valid credentials", dataProvider = "commonDataProvider", dataProviderClass = DataProvider.class)
     public void TC01_logInToECSWithValidID(Map<String, String> data) {
+        System.out.println("Started Test");
         setTestData(data);
 
         PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
@@ -20,8 +21,9 @@ public class ECSScripts extends TestBase {
     }
 
 
-    @Test(description = "Verify login using Invalid credentials", dataProvider = "ecsDataProvider", dataProviderClass = DataProvider.class)
+    @Test(description = "Verify login using Invalid credentials", dataProvider = "commonDataProvider", dataProviderClass = DataProvider.class)
     public void TC02_logInToECSWithInvalidID(Map<String, String> data) {
+        System.out.println("Started Test");
         setTestData(data);
 
         PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
@@ -30,8 +32,9 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectLoginPage().validateInvalidCredentialsMessage();
     }
 
-    @Test(description = "Verify if user is able to navigate to Make A Payment page", dataProvider = "ecsDataProvider", dataProviderClass = DataProvider.class)
+    @Test(description = "Verify if user is able to navigate to Make A Payment page", dataProvider = "commonDataProvider", dataProviderClass = DataProvider.class)
     public void TC03_navigateToMakeAPaymentPage(Map<String, String> data) {
+        System.out.println("Started Test");
         setTestData(data);
 
         PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
@@ -42,8 +45,9 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectMakePaymentPage().validateMakePaymentPageDisplayed();
     }
 
-    @Test(description = "Verify if user is able to navigate to Auto Pay page", dataProvider = "ecsDataProvider", dataProviderClass = DataProvider.class)
+    @Test(description = "Verify if user is able to navigate to Auto Pay page", dataProvider = "commonDataProvider", dataProviderClass = DataProvider.class)
     public void TC04_navigateToAutoPayPage(Map<String, String> data) {
+        System.out.println("Started Test");
         setTestData(data);
 
         PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
@@ -54,8 +58,9 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectAutoPayPage().validateAutoPayPageDisplayed();
     }
 
-    @Test(description = "Verify if user is able to navigate to Auto Pay page", dataProvider = "ecsDataProvider", dataProviderClass = DataProvider.class)
+    @Test(description = "Verify if user is able to navigate to Auto Pay page", dataProvider = "commonDataProvider", dataProviderClass = DataProvider.class)
     public void TC05_navigateToStatementsPage(Map<String, String> data) {
+        System.out.println("Started Test");
         setTestData(data);
 
         PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();

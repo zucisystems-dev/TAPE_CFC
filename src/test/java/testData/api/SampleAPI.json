@@ -1,0 +1,35 @@
+{
+  "ECS_API": [
+    {
+      "automationId": "TC02_PostSomeData",
+      "payloadKey": "createUser",
+      "name": "Vegeta",
+      "job": "Senior SDET"
+    },
+    {
+      "automationId": "TC02_PostSomeData",
+      "payloadKey": "createUser",
+      "name": "Goku",
+      "job": "Senior SDET"
+    },
+    {
+      "automationId": "TC02_PostSomeData",
+      "payloadKey": "createUser",
+      "name": "Piccolo",
+      "job": "Senior SDET"
+    },
+    {
+      "automationId": "TC03_PutSomeData",
+      "payloadKey": "updateUser",
+      "name": "Vegeta",
+      "job": "SDET Lead"
+    }
+  ],
+  "ECS_QA": [
+    {
+      "automationId": "TC003_PasswordReset",
+      "email": "user3@example.com",
+      "resetLinkSent": true
+    }
+  ]
+}

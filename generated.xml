@@ -6,7 +6,7 @@
   <listeners>
     <listener class-name="framework.listeners.DynamicDependencyTransformer"/>
   </listeners>
-  <test thread-count="4" name="Navigate Make A Payment tests">
+  <test thread-count="4" parallel="tests" name="Navigate Make A Payment tests">
     <classes>
       <class name="tests.web.ECSScripts">
         <methods>
@@ -15,7 +15,16 @@
       </class> <!-- tests.web.ECSScripts -->
     </classes>
   </test> <!-- Navigate Make A Payment tests -->
-  <test thread-count="4" name="Navigate Statement tests">
+  <test thread-count="4" parallel="tests" name="Navigate Auto Pay tests">
+    <classes>
+      <class name="tests.web.ECSScripts">
+        <methods>
+          <include name="TC04_navigateToAutoPayPage"/>
+        </methods>
+      </class> <!-- tests.web.ECSScripts -->
+    </classes>
+  </test> <!-- Navigate Auto Pay tests -->
+  <test thread-count="4" parallel="tests" name="Navigate Statement tests">
     <classes>
       <class name="tests.web.ECSScripts">
         <methods>

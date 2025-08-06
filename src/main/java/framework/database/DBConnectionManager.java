@@ -10,6 +10,10 @@ import java.util.Properties;
 
 public class DBConnectionManager {
 
+    private DBConnectionManager(){
+        throw new UnsupportedOperationException("DB Connection Manager class — do not instantiate.");
+    }
+
     public static Connection getConnection() {
         Connection connection = null;
         String appName = AppConfigUtil.getAppName();

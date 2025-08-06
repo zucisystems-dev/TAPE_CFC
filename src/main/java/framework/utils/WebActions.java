@@ -58,6 +58,10 @@ public class WebActions extends TestBase {
         ExtentReport.getTest().log(Status.PASS, message);
     }
 
+    public static void logMessageFailInReport(String message){
+        ExtentReport.getTest().log(Status.FAIL, message);
+    }
+
     private static void setLocalDriver() {
         driver = DriverFactory.getDriver();
         wait = DriverFactory.getWait();
@@ -234,6 +238,8 @@ public class WebActions extends TestBase {
             case "INDEX":
                 select.selectByIndex(Integer.parseInt(text));
                 break;
+            default:
+                select.selectByValue(text);;
         }
     }
 

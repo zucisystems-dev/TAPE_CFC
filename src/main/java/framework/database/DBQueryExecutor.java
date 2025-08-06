@@ -7,6 +7,10 @@ import java.sql.Statement;
 
 public class DBQueryExecutor {
 
+    private DBQueryExecutor(){
+        throw new UnsupportedOperationException("DB Query Executor class — do not instantiate.");
+    }
+
     public static void fetchData(String query) {
         Connection conn = null;
         Statement stmt = null;

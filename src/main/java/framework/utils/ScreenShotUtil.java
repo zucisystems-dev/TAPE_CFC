@@ -12,7 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.nio.file.Files;
 
-public class ScreenShotUtil extends ExtentReport {
+import static framework.utils.ExtentReport.today;
+
+public class ScreenShotUtil {
 
     public static void captureScreenshot(Status status, String message) {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
