@@ -55,11 +55,13 @@ public class WebActions extends TestBase {
     }
 
     public static void logMessageInReport(String message){
-        ExtentReport.getTest().log(Status.PASS, message);
+        ExtentReport.getDetailedTest().log(Status.PASS, message);
+        ExtentReport.getEmailableTest().log(Status.PASS, message);
     }
 
     public static void logMessageFailInReport(String message){
-        ExtentReport.getTest().log(Status.FAIL, message);
+        ExtentReport.getDetailedTest().log(Status.FAIL, message);
+        ExtentReport.getEmailableTest().log(Status.FAIL, message);
     }
 
     private static void setLocalDriver() {

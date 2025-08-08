@@ -33,13 +33,13 @@ public class ScreenShotUtil {
 
         try {
             if(status.getName().equalsIgnoreCase("Pass")){
-                ExtentReport.getTest().pass(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                ExtentReport.getDetailedTest().pass(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
             }
             else if(status.getName().equalsIgnoreCase("Fail")){
-                ExtentReport.getTest().fail(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                ExtentReport.getDetailedTest().fail(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
             }
             else{
-                ExtentReport.getTest().info(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                ExtentReport.getDetailedTest().info(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
             }
 
         } catch (Exception e) {

@@ -1,13 +1,12 @@
 package framework.base;
 
-import framework.utils.ExceptionMessageLoader;
+import framework.listeners.CustomTestListener;
 import framework.utils.ExtentReport;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -15,151 +14,101 @@ import java.util.Map;
 import static framework.base.PageObjectInitiator.apiObjectInitiator;
 import static framework.base.PageObjectInitiator.objectInitiator;
 import static framework.config.PropertyReader.*;
-import static framework.utils.ExtentReport.removeTest;
-import static framework.utils.ScreenShotUtil.captureScreenshot;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class TestBase {
 
-    public static String url = "";
-    public static ThreadLocal<Long> startTime = new ThreadLocal<>();
-    public static long endTime;
-    public static String browserName;
+    private static String url;
+    private static final ThreadLocal<String> browserName = new ThreadLocal<>();
+    private static final Logger logger = LogManager.getLogger(TestBase.class);
+
+    private static final ThreadLocal<Long> startTime = new ThreadLocal<>();
+
+    public static void setStartTime(Long time) {
+        startTime.set(time);
+    }
+
+    public static Long getStartTime() {
+        return startTime.get();
+    }
+
+    public static void removeStartTime() {
+        startTime.remove();
+    }
+
+    public static void setBrowserName(String b) {
+        browserName.set(b);
+    }
+
+    public static String getBrowserName() {
+        return browserName.get();
+    }
+
+    public static void removeBrowserName() {
+        browserName.remove();
+    }
+
+    public static String getUrl() {
+        return url;
+    }
 
     @BeforeSuite(alwaysRun = true)
     @Parameters("env")
     public void setupReport(String env) {
         String[] environment = env.split("_");
         url = getPropertyFileURL(env);
-        ExtentReport.getInstance(environment[0]);
-        System.out.println("Before Suite: Opening browser...");
+        ExtentReport.createInstances(environment[0]);
+        logger.info("Before Sui;te: Opening browser...");
     }
 
     @BeforeMethod
     public void beforeMethod(Method method, ITestContext context) {
-        browserName = context.getCurrentXmlTest().getParameter("browser");
-        if(browserName.equalsIgnoreCase("chrome")) {
-            startTime.set(System.currentTimeMillis());
-            ExtentTest test = ExtentReport.getExtent().createTest(method.getName());
-            ExtentReport.setTest(test);
-            DriverFactory.setDriver(browserName, System.getProperty("os.name"));
-            WebDriver driver;
-            driver = DriverFactory.getDriver();
+        setBrowserName(context.getCurrentXmlTest().getParameter("browser"));
+        if (getBrowserName().equalsIgnoreCase("chrome")) {
+            setStartTime(System.currentTimeMillis());
+            DriverFactory.setDriver(getBrowserName(), System.getProperty("os.name"));
+            WebDriver driver = DriverFactory.getDriver();
             objectInitiator(driver);
             driver.manage().window().maximize();
-            driver.get(url);
-        }
-        else if(browserName.equalsIgnoreCase("api")){
-            System.out.println("Before Method: API Testing Starts");
-            startTime.set(System.currentTimeMillis());
-            ExtentTest test = ExtentReport.getExtent().createTest(method.getName());
-            ExtentReport.setTest(test);
+            driver.get(getUrl());
+        } else if (getBrowserName().equalsIgnoreCase("api")) {
+            logger.info("Before Method: API Testing Starts");
+            setStartTime(System.currentTimeMillis());
             apiObjectInitiator();
         }
     }
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult result, Method method, ITestContext context) {
-        browserName = context.getCurrentXmlTest().getParameter("browser");
-        if(browserName.equalsIgnoreCase("chrome")) {
-            System.out.println("After Method: Quitting browser...");
-            WebDriver driver = DriverFactory.getDriver();
+        if (getBrowserName().equalsIgnoreCase("chrome")) {
+            logger.info("After Method: Quitting browser...");
             try {
-                if (result.getStatus() == ITestResult.FAILURE) {
-                    try {
-                        Throwable throwable = result.getThrowable();
-                        ExtentReport.getTest().fail("Test Failed: " + throwable);
-
-                        String friendlyMessage = ExceptionMessageLoader.getMessageForException(throwable);
-                        System.out.println("Test Case Failed: " + method.getName());
-                        System.out.println("Exception: " + throwable.getClass().getSimpleName());
-                        System.out.println("Reason: " + friendlyMessage);
-
-                        if (driver != null) {
-                            captureScreenshot(Status.FAIL, result.getThrowable().getMessage());
-                        }
-                    } catch (Exception e) {
-                        System.err.println("Error capturing screenshot or logging failure: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-
-                } else if (result.getStatus() == ITestResult.SUCCESS) {
-                    try {
-                        ExtentReport.getTest().pass("Test Passed");
-                    } catch (Exception e) {
-                        System.err.println("Error logging test pass: " + e.getMessage());
-                    }
-
-                } else if (result.getStatus() == ITestResult.SKIP) {
-                    try {
-                        ExtentReport.getTest().skip("Test Skipped: " + result.getThrowable());
-                    } catch (Exception e) {
-                        System.err.println("Error logging test skip: " + e.getMessage());
-                    }
-                }
-            } finally {
-                try {
-                    DriverFactory.quitDriver();
-                } catch (Exception e) {
-                    System.err.println("Error during driver quit: " + e.getMessage());
-                    e.printStackTrace();
-                }
-                try {
-                    calculateExecutionTime(method);
-                } catch (Exception e) {
-                    System.err.println("Error in calculateExecutionTime: " + e.getMessage());
-                    e.printStackTrace();
-                }
+                DriverFactory.quitDriver();
+            } catch (Exception e) {
+                logger.error("Error during driver quit", e);
             }
-            removeTest();
-        }
-        else if(browserName.equalsIgnoreCase("api")){
-            System.out.println("After Method: API Testing Ends");
             try {
-                if (result.getStatus() == ITestResult.FAILURE) {
-                    try {
-                        Throwable throwable = result.getThrowable();
-                        ExtentReport.getTest().fail("Test Failed: " + throwable);
-
-                        String friendlyMessage = ExceptionMessageLoader.getMessageForException(throwable);
-                        System.out.println("Test Case Failed: " + method.getName());
-                        System.out.println("Exception: " + throwable.getClass().getSimpleName());
-                        System.out.println("Reason: " + friendlyMessage);
-
-                    } catch (Exception e) {
-                        System.err.println("Error logging failure: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-
-                } else if (result.getStatus() == ITestResult.SUCCESS) {
-                    try {
-                        ExtentReport.getTest().pass("Test Passed");
-                    } catch (Exception e) {
-                        System.err.println("Error logging test pass: " + e.getMessage());
-                    }
-
-                } else if (result.getStatus() == ITestResult.SKIP) {
-                    try {
-                        ExtentReport.getTest().skip("Test Skipped: " + result.getThrowable());
-                    } catch (Exception e) {
-                        System.err.println("Error logging test skip: " + e.getMessage());
-                    }
-                }
-            } finally {
-                try {
-                    calculateExecutionTime(method);
-                } catch (Exception e) {
-                    System.err.println("Error in calculateExecutionTime: " + e.getMessage());
-                    e.printStackTrace();
-                }
+                calculateExecutionTime(method);
+            } catch (Exception e) {
+                logger.error("Error in calculateExecutionTime", e);
             }
-            removeTest();
+            CustomTestListener.removeAllTests();
+        } else if (getBrowserName().equalsIgnoreCase("api")) {
+            logger.info("After Method: API Testing Ends");
+            try {
+                calculateExecutionTime(method);
+            } catch (Exception e) {
+                logger.error("Error in calculateExecutionTime", e);
+            }
+            CustomTestListener.removeAllTests();
         }
+        removeBrowserName();
+        clearTestData();
     }
 
-    @AfterSuite(alwaysRun = true)
-    public void tearDownReport() {
-        ExtentReport.flushReports();
-    }
 
     private static final ThreadLocal<Map<String, String>> testDataThreadLocal = new ThreadLocal<>();
 
@@ -171,16 +120,16 @@ public class TestBase {
         return testDataThreadLocal.get();
     }
 
-    public static void clear() {
+    public static void clearTestData() {
         testDataThreadLocal.remove();
     }
 
-    public static void calculateExecutionTime(Method method){
-        if (startTime.get() == null) {
-            System.out.printf("Start time was null for test [%s]%n", method.getName());
+    public static void calculateExecutionTime(Method method) {
+        if (getStartTime() == null) {
+            logger.warn("Start time was null for test [{}]", method.getName());
         }
-        endTime = System.currentTimeMillis();
-        long duration = endTime - startTime.get();
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - getStartTime();
         long seconds = duration / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
@@ -188,9 +137,10 @@ public class TestBase {
         seconds = seconds % 60;
         minutes = minutes % 60;
 
-        System.out.printf(method.getName() + " - Test Execution Time : %02dh:%02dm:%02ds%n", hours, minutes, seconds);
+        logger.info("{} - Test Execution Time : {}h:{}m:{}s",
+                method.getName(), hours, minutes, seconds);
 
-        startTime.remove();
+        removeStartTime();
     }
 
 }

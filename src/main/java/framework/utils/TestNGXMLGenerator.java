@@ -133,6 +133,7 @@ public class TestNGXMLGenerator {
         suite.setParallel(XmlSuite.ParallelMode.TESTS);
         suite.setThreadCount(4);
         suite.addListener("framework.listeners.DynamicDependencyTransformer");
+        suite.addListener("framework.listeners.CustomTestListener");
 
         Map<String, Map<String, List<String>>> testMap = new LinkedHashMap<>();
         Map<String, String> testParams = new LinkedHashMap<>();
