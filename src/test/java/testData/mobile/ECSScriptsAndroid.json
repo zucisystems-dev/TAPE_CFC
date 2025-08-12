@@ -1,0 +1,16 @@
+{
+	"ECS_TEST": [
+		{
+			"automationId": "TC01_Android_logInToECSWithValidID",
+			"username": "liliiatest3082",
+			"password": "Password2!"
+		}
+	],
+	"ECS_QA": [
+		{
+			"automationId": "TC003_PasswordReset",
+			"email": "user3@example.com",
+			"resetLinkSent": true
+		}
+	]
+}

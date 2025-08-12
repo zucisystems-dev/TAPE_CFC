@@ -1,13 +1,18 @@
 package framework.base;
 
 import framework.config.PropertyReader;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.net.URL;
 import java.time.Duration;
 
 
@@ -20,8 +25,9 @@ public class DriverFactory {
         throw new UnsupportedOperationException("Driver class — do not instantiate.");
     }
 
-    public static void setDriver(String strBrowserType, String osName) {
+    public static void setDriver(String strBrowserType) {
         try {
+            DesiredCapabilities caps = new DesiredCapabilities();
             switch (strBrowserType) {
                 case "Chrome":
                     ChromeOptions options = new ChromeOptions();
@@ -50,11 +56,63 @@ public class DriverFactory {
                         wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     }
                     break;
+                case "Android":
+                    try {
+                        String user = PropertyReader.getProperty("config","bs_user");
+                        String key = PropertyReader.getProperty("config","bs_key");
+
+                        String url = "https://"+ user+":"+key+"@hub-cloud.browserstack.com/wd/hub";
+
+                        caps.setCapability("browserstack.user", user);
+                        caps.setCapability("browserstack.key", key);
+
+                        caps.setCapability("platformName", "Android");
+                        caps.setCapability("deviceName", PropertyReader.getProperty("config","android_device"));
+                        caps.setCapability("os_version", PropertyReader.getProperty("config","android_os_version"));
+                        caps.setCapability("unicodeKeyboard", true);
+                        caps.setCapability("resetKeyboard", true);
+                        caps.setCapability("interactiveDebugging", true);
+                        caps.setCapability("app", PropertyReader.getProperty("ECS","android_app_url").trim());
+
+                        caps.setCapability("project", "ECS Regression");
+                        caps.setCapability("build", "Demo Build");
+                        caps.setCapability("name", "Android Demo");
+
+                        driverThreadLocal.set(new AndroidDriver(new URL(url), caps));
+                        wait.set(new WebDriverWait(driverThreadLocal.get(), Duration.ofSeconds(30)));
+
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to initialize BrowserStack mobile driver: " + e.getMessage(), e);
+                    }
+                    break;
+                case "IOS":
+                    try {
+                        String user = PropertyReader.getProperty("config","bs_user");
+                        String key = PropertyReader.getProperty("config","bs_key");
+                        String url = "https://" + user + ":" + key + "@hub-cloud.browserstack.com/wd/hub";
+
+                        caps.setCapability("browserstack.user", user);
+                        caps.setCapability("browserstack.key", key);
+
+                        caps.setCapability("platformName", "iOS");
+                        caps.setCapability("deviceName", PropertyReader.getProperty("config","ios_device"));
+                        caps.setCapability("os_version", PropertyReader.getProperty("config","ios_os_version"));
+                        caps.setCapability("app", PropertyReader.getProperty("ECS","ios_app_url"));
+                        caps.setCapability("disableKeyboard", true);
+                        caps.setCapability("connectHardwareKeyboard", true);
+                        caps.setCapability("project", "ECS Regression");
+                        caps.setCapability("build", "Build 001");
+                        caps.setCapability("name", "iOS Test");
+
+                        driverThreadLocal.set(new IOSDriver(new URL(url), caps));
+                        wait.set(new WebDriverWait(driverThreadLocal.get(), Duration.ofSeconds(30)));
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to initialize BrowserStack iOS driver: " + e.getMessage(), e);
+                    }
                 default:
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             Assert.fail("Could not open the browser");
         }
     }

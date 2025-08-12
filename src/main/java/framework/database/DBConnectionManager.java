@@ -6,7 +6,6 @@ import framework.utils.AppConfigUtil;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DBConnectionManager {
 
@@ -22,9 +21,9 @@ public class DBConnectionManager {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(PropertyReader.readDynamicProperty(appModule,"dataBase_URL"),
-                    PropertyReader.readDynamicProperty(appModule,"dataBase_UserName"),
-                    PropertyReader.readDynamicProperty(appModule,"dataBase_Password"));
+            connection = DriverManager.getConnection(PropertyReader.getProperty(appModule,"dataBase_URL"),
+                    PropertyReader.getProperty(appModule,"dataBase_UserName"),
+                    PropertyReader.getProperty(appModule,"dataBase_Password"));
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver not found: " + e.getMessage());
         } catch (SQLException e) {

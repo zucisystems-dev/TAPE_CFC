@@ -12,6 +12,8 @@ import framework.base.TestBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collection;
+
 public class CustomTestListener implements ITestListener, ISuiteListener {
 
     private static final ThreadLocal<Long> startTime = new ThreadLocal<>();
@@ -24,18 +26,23 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onFinish(ISuite suite) {
-        ITestContext context = suite.getResults().values().iterator().next().getTestContext();
+        Collection<ISuiteResult> results = suite.getResults().values();
+        if (!results.isEmpty()) {
+            ITestContext context = results.iterator().next().getTestContext();
+            String environment = getParameterOrSystemProperty(context, "env");
+            String browser = getParameterOrSystemProperty(context, "browser");
+            boolean parallel = isParallelExecution(context);
+            int threadCount = getThreadCount(context);
 
-        String environment = getParameterOrSystemProperty(context, "env");
-        String browser = getParameterOrSystemProperty(context, "browser");
-        boolean parallel = isParallelExecution(context);
-        int threadCount = getThreadCount(context);
+            ExtentReport.getDetailedExtent().setSystemInfo("Environment", environment);
+            ExtentReport.getDetailedExtent().setSystemInfo("Browser", browser);
+            ExtentReport.getDetailedExtent().setSystemInfo("Execution Mode", parallel ? "Parallel" : "Sequential");
+            ExtentReport.getDetailedExtent().setSystemInfo("Thread Count", String.valueOf(threadCount));
+            ExtentReport.flushReports();
+        } else {
+            System.out.println("No suite results found.");
+        }
 
-        ExtentReport.getDetailedExtent().setSystemInfo("Environment", environment);
-        ExtentReport.getDetailedExtent().setSystemInfo("Browser", browser);
-        ExtentReport.getDetailedExtent().setSystemInfo("Execution Mode", parallel ? "Parallel" : "Sequential");
-        ExtentReport.getDetailedExtent().setSystemInfo("Thread Count", String.valueOf(threadCount));
-        ExtentReport.flushReports();
     }
 
     @Override

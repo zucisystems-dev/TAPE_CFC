@@ -14,7 +14,7 @@ public class ECSScripts extends TestBase {
         System.out.println("Started Test");
         setTestData(data);
 
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -26,7 +26,7 @@ public class ECSScripts extends TestBase {
         System.out.println("Started Test");
         setTestData(data);
 
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectLoginPage().validateInvalidCredentialsMessage();
@@ -37,7 +37,7 @@ public class ECSScripts extends TestBase {
         System.out.println("Started Test");
         setTestData(data);
 
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -50,7 +50,7 @@ public class ECSScripts extends TestBase {
         System.out.println("Started Test");
         setTestData(data);
 
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -63,7 +63,7 @@ public class ECSScripts extends TestBase {
         System.out.println("Started Test");
         setTestData(data);
 
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
