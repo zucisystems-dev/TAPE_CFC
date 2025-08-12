@@ -59,9 +59,9 @@ public class TestBase {
     @Parameters("env")
     public void setupReport(String env) {
         String[] environment = env.split("_");
-        url = getPropertyFileURL(env);
+        url = getPropertyFileURL(environment[0],environment[1]);
         ExtentReport.createInstances(environment[0]);
-        logger.info("Before Sui;te: Opening browser...");
+        logger.info("Before Suite: Opening browser...");
     }
 
     @BeforeMethod
@@ -69,7 +69,7 @@ public class TestBase {
         setBrowserName(context.getCurrentXmlTest().getParameter("browser"));
         if (getBrowserName().equalsIgnoreCase("chrome")) {
             setStartTime(System.currentTimeMillis());
-            DriverFactory.setDriver(getBrowserName(), System.getProperty("os.name"));
+            DriverFactory.setDriver(getBrowserName());
             WebDriver driver = DriverFactory.getDriver();
             objectInitiator(driver);
             driver.manage().window().maximize();

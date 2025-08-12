@@ -22,6 +22,7 @@ public class TestNGXMLGenerator {
     private final String[] paramName;
     private final String[] paramValue;
     private final String executeFlag;
+    private final String parallelFlag;
 
     private TestNGXMLGenerator(Builder builder){
         suiteName = builder.suiteName;
@@ -32,6 +33,7 @@ public class TestNGXMLGenerator {
         paramName = builder.paramName;
         paramValue = builder.paramValue;
         executeFlag = builder.executeFlag;
+        parallelFlag = builder.parallelFlag;
     }
 
     public static class Builder {
@@ -43,6 +45,7 @@ public class TestNGXMLGenerator {
         private String[] paramName;
         private String[] paramValue;
         private String executeFlag;
+        private String parallelFlag;
 
         public Builder setSuiteName(String suiteName){
             this.suiteName = suiteName;
@@ -84,6 +87,11 @@ public class TestNGXMLGenerator {
             return this;
         }
 
+        public Builder setParallelFlag(String parallelFlag){
+            this.parallelFlag = parallelFlag;
+            return this;
+        }
+
         public TestNGXMLGenerator build() {
             return new TestNGXMLGenerator(this);
         }
@@ -110,14 +118,15 @@ public class TestNGXMLGenerator {
                 Row row = sheet.getRow(i);
                 if (row == null) continue;
                 data.add(new TestNGXMLGenerator.Builder()
-                                .setSuiteName(row.getCell(0).getStringCellValue())
-                                        .setTestName(row.getCell(1).getStringCellValue())
-                                                .setClassName(row.getCell(2).getStringCellValue())
-                                                        .setTestCaseID(row.getCell(3).getStringCellValue())
-                                                                .setMethodName(row.getCell(4).getStringCellValue())
-                                                                        .setParamName(row.getCell(5).getStringCellValue().split(","))
-                                                                                .setParamValue(row.getCell(6).getStringCellValue().split(","))
-                                                                                        .setExecuteFlag(row.getCell(7).getStringCellValue()).build());
+                        .setSuiteName(row.getCell(0).getStringCellValue())
+                        .setTestName(row.getCell(1).getStringCellValue())
+                        .setClassName(row.getCell(2).getStringCellValue())
+                        .setTestCaseID(row.getCell(3).getStringCellValue())
+                        .setMethodName(row.getCell(4).getStringCellValue())
+                        .setParamName(row.getCell(5).getStringCellValue().split(","))
+                        .setParamValue(row.getCell(6).getStringCellValue().split(","))
+                        .setExecuteFlag(row.getCell(7).getStringCellValue())
+                        .setParallelFlag(row.getCell(8).getStringCellValue()).build());
             }
             workbook.close();
         }
@@ -131,7 +140,6 @@ public class TestNGXMLGenerator {
         XmlSuite suite = new XmlSuite();
         suite.setName(appModule + " " + suiteType + " " + "Suite");
         suite.setParallel(XmlSuite.ParallelMode.TESTS);
-        suite.setThreadCount(4);
         suite.addListener("framework.listeners.DynamicDependencyTransformer");
         suite.addListener("framework.listeners.CustomTestListener");
 
@@ -150,11 +158,21 @@ public class TestNGXMLGenerator {
         }
 
         suite.setParameters(testParams);
+        if(testMap.size()>5){
+            suite.setThreadCount(5);
+        }else{
+            suite.setThreadCount(testMap.size());
+        }
 
         for (String testName : testMap.keySet()) {
             XmlTest xmlTest = new XmlTest(suite);
             xmlTest.setName(testName);
-
+            for(TestNGXMLGenerator row : data) {
+                if(testName.equalsIgnoreCase(row.testName) && row.parallelFlag.equalsIgnoreCase("N")) {
+                    xmlTest.setParallel(XmlSuite.ParallelMode.NONE);
+                    break;
+                }
+            }
             List<XmlClass> xmlClasses = new ArrayList<>();
             for (Map.Entry<String, List<String>> classEntry : testMap.get(testName).entrySet()) {
                 XmlClass xmlClass = new XmlClass(classEntry.getKey());

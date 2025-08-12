@@ -20,7 +20,7 @@ public class DriverFactory {
         throw new UnsupportedOperationException("Driver class — do not instantiate.");
     }
 
-    public static void setDriver(String strBrowserType, String osName) {
+    public static void setDriver(String strBrowserType) {
         try {
             switch (strBrowserType) {
                 case "Chrome":

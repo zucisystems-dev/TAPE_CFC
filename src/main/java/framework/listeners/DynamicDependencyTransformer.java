@@ -20,6 +20,9 @@ public class DynamicDependencyTransformer implements IAnnotationTransformer {
 
     @Override
     public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
+
+        annotation.setRetryAnalyzer(framework.listeners.RetryAnalyzer.class);
+
         List<String> dependsOn = dependencyMap.get(testMethod.getName());
         if (dependsOn != null) {
             annotation.setDependsOnMethods(dependsOn.toArray(new String[0]));

@@ -11,6 +11,16 @@
 			"password": "wrongpass"
 		},
 		{
+			"automationId": "TC02_logInToECSWithInvalidID",
+			"username": "jikolplom",
+			"password": "hdhdhduj"
+		},
+		{
+			"automationId": "TC02_logInToECSWithInvalidID",
+			"username": "aaksjiid",
+			"password": "hhdudjie"
+		},
+		{
 			"automationId": "TC03_navigateToMakeAPaymentPage",
 			"username": "liliiatest3082",
 			"password": "Password2!"

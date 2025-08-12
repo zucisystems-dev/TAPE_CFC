@@ -64,17 +64,14 @@ public class PropertyReader {
 	 * @param env
 	 * @return
 	 */
-	public static String getPropertyFileURL(String env) {
+	public static String getPropertyFileURL(String appName, String env) {
 
-		String[] envArray = env.split("_");
 		String returnText = null;
-		String propertyName = envArray[0];
-		String key = envArray[1];
-		String file = System.getProperty("user.dir") + File.separator + "src/main/resources/properties" + File.separator + propertyName + ".properties";
+		String file = System.getProperty("user.dir") + File.separator + "src/main/resources/properties" + File.separator + appName + ".properties";
 		try (FileInputStream fileInput = new FileInputStream(file);){
 			Properties properties = new Properties();
 			properties.load(fileInput);
-			returnText = properties.getProperty(key);
+			returnText = properties.getProperty(env);
 
 		} catch (Exception e) {
 			e.printStackTrace();

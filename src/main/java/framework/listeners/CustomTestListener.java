@@ -1,9 +1,12 @@
 package framework.listeners;
 
 import com.aventstack.extentreports.Status;
+import framework.config.PropertyReader;
+import framework.utils.ExcelUtil;
 import framework.utils.ExtentReport;
 import framework.utils.ExceptionMessageLoader;
 import framework.base.DriverFactory;
+import framework.utils.TestExecutionLogger;
 import org.testng.*;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
@@ -11,6 +14,13 @@ import framework.base.TestBase;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomTestListener implements ITestListener, ISuiteListener {
 
@@ -30,6 +40,10 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         String browser = getParameterOrSystemProperty(context, "browser");
         boolean parallel = isParallelExecution(context);
         int threadCount = getThreadCount(context);
+
+        //TestExecutionLogger.writeToJsonFile(PropertyReader.readProperty("testResultJSONPath"));
+        List<TestExecutionLogger> results = TestExecutionLogger.getResults();
+        ExcelUtil.writeFromList(results);
 
         ExtentReport.getDetailedExtent().setSystemInfo("Environment", environment);
         ExtentReport.getDetailedExtent().setSystemInfo("Browser", browser);
@@ -55,7 +69,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         ExtentReport.getDetailedTest().pass("Test Passed");
         ExtentReport.getEmailableTest().pass("Test Passed");
         logger.info("Test passed: {}", result.getMethod().getMethodName());
-        logExecutionTime(result);
+        Map<String,String> time = logExecutionTime(result);
 
         String environment = getParameterOrSystemProperty(result.getTestContext(), "env");
         String browser = getParameterOrSystemProperty(result.getTestContext(), "browser");
@@ -67,6 +81,11 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 isParallelExecution(result.getTestContext()) ? "Parallel" : "Sequential",
                 getThreadCount(result.getTestContext())
         );
+        TestExecutionLogger.add(TestExecutionLogger.TestResultData.builder().setTestExecutionTime(time.get("executionTime")).
+                setTestName(result.getMethod().getMethodName()).setBrowser(browser)
+                .setEnvironment(environment).setStatus(getStatusAsString(result))
+                .setFailureReason(null).setTestStartTime(time.get("exeStartTime"))
+                .setTestEndTime(time.get("exeEndTime")));
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -88,7 +107,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
             captureScreenshot(Status.FAIL, throwable.getMessage());
         }
 
-        logExecutionTime(result);
+        Map<String,String> time = logExecutionTime(result);
 
         String environment = getParameterOrSystemProperty(result.getTestContext(), "env");
         String browser = getParameterOrSystemProperty(result.getTestContext(), "browser");
@@ -100,6 +119,12 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 isParallelExecution(result.getTestContext()) ? "Parallel" : "Sequential",
                 getThreadCount(result.getTestContext())
         );
+
+        TestExecutionLogger.add(TestExecutionLogger.TestResultData.builder().setTestExecutionTime(time.get("executionTime")).
+                setTestName(result.getMethod().getMethodName()).setBrowser(browser)
+                .setEnvironment(environment).setStatus(getStatusAsString(result))
+                .setFailureReason(friendlyMessage).setTestStartTime(time.get("exeStartTime"))
+                .setTestEndTime(time.get("exeEndTime")));
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -110,7 +135,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         ExtentReport.getDetailedTest().skip("Test Skipped" + (skipReason != null ? ": " + skipReason : ""));
         ExtentReport.getEmailableTest().skip("Test Skipped" + (skipReason != null ? ": " + skipReason : ""));
         logger.warn("Test skipped: {}", result.getMethod().getMethodName());
-        logExecutionTime(result);
+        Map<String,String> time = logExecutionTime(result);
 
         String environment = getParameterOrSystemProperty(result.getTestContext(), "env");
         String browser = getParameterOrSystemProperty(result.getTestContext(), "browser");
@@ -122,12 +147,20 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 isParallelExecution(result.getTestContext()) ? "Parallel" : "Sequential",
                 getThreadCount(result.getTestContext())
         );
+        TestExecutionLogger.add(TestExecutionLogger.TestResultData.builder().setTestExecutionTime(time.get("executionTime")).
+                setTestName(result.getMethod().getMethodName()).setBrowser(browser)
+                .setEnvironment(environment).setStatus(getStatusAsString(result))
+                .setFailureReason(null).setTestStartTime(time.get("exeStartTime"))
+                .setTestEndTime(time.get("exeEndTime")));
         TestBase.clearTestData();
         removeAllTests();
     }
 
-    private void logExecutionTime(ITestResult result) {
+    private Map<String, String> logExecutionTime(ITestResult result) {
         if (startTime.get() != null) {
+            Map<String,String> storeTime = new HashMap<>();
+            storeTime.put("exeStartTime", formatMillis(startTime.get()));
+            storeTime.put("exeEndTime", formatMillis(System.currentTimeMillis()));
             long duration = System.currentTimeMillis() - startTime.get();
             long seconds = (duration / 1000) % 60;
             long minutes = (duration / (1000 * 60)) % 60;
@@ -137,9 +170,12 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
             ExtentReport.getDetailedTest().log(Status.INFO, "Execution Time: " + time);
             ExtentReport.getEmailableTest().log(Status.INFO, "Execution Time: " + time);
             logger.info("Execution time for {}: {}", result.getMethod().getMethodName(), time);
+            storeTime.put("executionTime", time);
 
             startTime.remove();
+            return storeTime;
         }
+        return null;
     }
 
     public static void removeAllTests() {
@@ -163,4 +199,25 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         }
         return value;
     }
+
+    private String getStatusAsString(ITestResult result) {
+        switch (result.getStatus()) {
+            case ITestResult.SUCCESS:
+                return "PASS";
+            case ITestResult.FAILURE:
+                return "FAIL";
+            case ITestResult.SKIP:
+                return "SKIP";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+    public static String formatMillis(long millis) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+                .withZone(ZoneId.systemDefault());
+
+        return formatter.format(Instant.ofEpochMilli(millis));
+    }
+
 }

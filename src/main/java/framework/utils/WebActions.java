@@ -1,6 +1,7 @@
 package framework.utils;
 
 import framework.base.DriverFactory;
+import framework.base.PageObjectInitiator;
 import framework.base.TestBase;
 import com.aventstack.extentreports.Status;
 import io.appium.java_client.AppiumBy;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -62,6 +64,19 @@ public class WebActions extends TestBase {
     public static void logMessageFailInReport(String message){
         ExtentReport.getDetailedTest().log(Status.FAIL, message);
         ExtentReport.getEmailableTest().log(Status.FAIL, message);
+    }
+
+    public static void openNewApplication(String url, WebDriver driver){
+        driver.manage().deleteAllCookies();
+        driver.get(url);
+    }
+
+    public static void newDriverInstance(ITestContext context, String url){
+        DriverFactory.quitDriver();
+        DriverFactory.setDriver(context.getCurrentXmlTest().getParameter("browser"));
+        PageObjectInitiator.objectInitiator(DriverFactory.getDriver());
+        DriverFactory.getDriver().manage().window().maximize();
+        DriverFactory.getDriver().get(url);
     }
 
     private static void setLocalDriver() {
