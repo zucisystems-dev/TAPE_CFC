@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Collection;
+
 public class CustomTestListener implements ITestListener, ISuiteListener {
 
     private static final ThreadLocal<Long> startTime = new ThreadLocal<>();
@@ -34,22 +36,27 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onFinish(ISuite suite) {
-        ITestContext context = suite.getResults().values().iterator().next().getTestContext();
-
-        String environment = getParameterOrSystemProperty(context, "env");
-        String browser = getParameterOrSystemProperty(context, "browser");
-        boolean parallel = isParallelExecution(context);
-        int threadCount = getThreadCount(context);
+        Collection<ISuiteResult> results = suite.getResults().values();
+        if (!results.isEmpty()) {
+            ITestContext context = results.iterator().next().getTestContext();
+            String environment = getParameterOrSystemProperty(context, "env");
+            String browser = getParameterOrSystemProperty(context, "browser");
+            boolean parallel = isParallelExecution(context);
+            int threadCount = getThreadCount(context);
 
         //TestExecutionLogger.writeToJsonFile(PropertyReader.readProperty("testResultJSONPath"));
-        List<TestExecutionLogger> results = TestExecutionLogger.getResults();
-        ExcelUtil.writeFromList(results);
+        List<TestExecutionLogger> result = TestExecutionLogger.getResults();
+        ExcelUtil.writeFromList(result);
 
         ExtentReport.getDetailedExtent().setSystemInfo("Environment", environment);
         ExtentReport.getDetailedExtent().setSystemInfo("Browser", browser);
         ExtentReport.getDetailedExtent().setSystemInfo("Execution Mode", parallel ? "Parallel" : "Sequential");
         ExtentReport.getDetailedExtent().setSystemInfo("Thread Count", String.valueOf(threadCount));
         ExtentReport.flushReports();
+        } else {
+            System.out.println("No suite results found.");
+        }
+
     }
 
     @Override

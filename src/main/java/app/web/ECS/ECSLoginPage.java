@@ -98,7 +98,7 @@ public class ECSLoginPage extends WebActions {
         }
     }
 
-    public void handleProceedToLogin(){
+    public void loginToECSApp(){
         try {
             waitTillElementVisible(btnProceedLogin);
             if(btnProceedLogin.isDisplayed()) {
