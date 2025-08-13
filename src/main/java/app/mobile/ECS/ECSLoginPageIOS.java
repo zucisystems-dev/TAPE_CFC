@@ -1,8 +1,7 @@
-package app.web.ECS;
+package app.mobile.ECS;
 
 import com.aventstack.extentreports.Status;
 import framework.utils.WebActions;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,50 +10,47 @@ import org.openqa.selenium.support.PageFactory;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
 
-public class ECSLoginPageAndroid extends WebActions {
+public class ECSLoginPageIOS extends WebActions {
 
     public WebDriver driver;
 
-    @FindBy(xpath = "//android.widget.EditText[@content-desc=\"Username\"]")
+    @FindBy(xpath = "//XCUIElementTypeTextField[@name=\"INPUT_NAME\"]")
     WebElement boxUserName;
 
-    @FindBy(xpath = "//android.widget.EditText[@content-desc=\"Password\"]")
+    @FindBy(xpath = "//XCUIElementTypeSecureTextField[@name=\"INPUT_PASSWORD\"]")
     WebElement boxPassword;
 
-    @FindBy(xpath = "//android.widget.TextView[@text=\"LOGIN\"]")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"BUTTON_LOGIN\"]")
     WebElement btnLogIn;
 
-    @FindBy(xpath = "//android.widget.Button[@content-desc=\"PROCEED TO LOGIN\"]")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"PROCEED TO LOGIN\"]")
     WebElement btnProceedLogin;
 
-    @FindBy(xpath = "//android.widget.ImageView[@resource-id=\"HOME_CREDIT_CARD-0-image\"]")
+    @FindBy(xpath = "//XCUIElementTypeOther[@name=\"HOME_CREDIT_CARD-0-image\"]")
     WebElement homePage;
 
-    public ECSLoginPageAndroid(WebDriver driver) {
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"Don’t Allow\"]")
+    WebElement dontAllowBtn;
+
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"View password button\"]")
+    WebElement viewPasswordBtn;
+
+    public ECSLoginPageIOS(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
     public void setUsername(String userName){
-        setTextAndroid(boxUserName, userName);
+        waitTillElementVisible(boxUserName);
+        boxUserName.sendKeys(userName);
         captureScreenshot(Status.PASS,"Username is entered");
     }
 
     public void setPassword(String password){
-        setTextAndroid(boxPassword, password);
+        setTextForIOS(boxPassword, password);
         captureScreenshot(Status.PASS,"password is entered");
     }
 
-    public void validateLogInPageDisplayed(){
-            waitTillElementVisible(boxUserName);
-            if(elementIsDisplayed(boxUserName) && elementIsDisplayed(boxPassword)){
-                captureScreenshot(Status.PASS,"ECS LogIn Page is displayed");
-            }
-            else{
-                captureScreenshot(Status.FAIL,"ECS LogIn Page is not displayed");
-            }
-    }
-
-    public void loginToECSAndroidApp(){
+    public void loginToECSIOSApp(){
         try {
             if(WebActions.isElementPresent(btnProceedLogin)) {
                 scrolltoElement(btnProceedLogin);
@@ -62,10 +58,13 @@ public class ECSLoginPageAndroid extends WebActions {
                 clickElement(btnProceedLogin, "Proceed To Login button is clicked");
                 System.out.println("Optional element appeared and was clicked.");
             }
+            if(WebActions.isElementPresent(dontAllowBtn)) {
+                clickElementMobile(dontAllowBtn);
+            }
             setUsername(getTestData().get("username"));
             setPassword(getTestData().get("password"));
-            scrolltoElement(boxPassword);
             waitTillElementClickable(btnLogIn);
+            doubleClickForIOS(viewPasswordBtn);
             captureScreenshot(Status.PASS,"Username and Password is entered");
             clickElement(btnLogIn, "Login Button is Clicked");
             waitTillElementClickable(homePage);

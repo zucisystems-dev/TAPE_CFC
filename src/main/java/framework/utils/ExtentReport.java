@@ -21,7 +21,7 @@ public class ExtentReport {
 
     private static final ConcurrentLinkedQueue<String[]> suiteSummaryData = new ConcurrentLinkedQueue<>();
 
-    public static String today = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+    public static final String TIMESTAMP = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
     private ExtentReport() {
         throw new UnsupportedOperationException("Extent Report class — do not instantiate.");
@@ -48,16 +48,14 @@ public class ExtentReport {
     }
 
     public static void createInstances(String app) {
-        String reportFolderPath = "reports" + File.separator + today + File.separator;
+        String reportFolderPath = "reports" + File.separator + TIMESTAMP + File.separator;
         String screenshotFolderPath = reportFolderPath + "Screenshots" + File.separator;
 
         new File(reportFolderPath).mkdirs();
         new File(screenshotFolderPath).mkdirs();
 
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
-
         // Detailed report path
-        String detailedReportPath = reportFolderPath + app + "_Main_Report_" + timestamp + ".html";
+        String detailedReportPath = reportFolderPath + app + "_Main_Report_" + TIMESTAMP + ".html";
         ExtentSparkReporter detailedReporter = new ExtentSparkReporter(detailedReportPath);
         detailedReporter.config().setReportName("Automation Test Report");
         detailedReporter.config().setDocumentTitle("Extent Report - Dark Theme");
@@ -117,18 +115,33 @@ public class ExtentReport {
 
     public static void writeSuiteSummary(String environment, String browser,
                                          String executionMode, int threadCount) {
-        if (suiteSummaryData.isEmpty()) {
-            return;
-        }
+        if (suiteSummaryData.isEmpty()) return;
 
         int totalPassed = 0, totalFailed = 0, totalSkipped = 0;
+        StringBuilder summaryTableHtml = new StringBuilder();
+        summaryTableHtml.append("<table border='1' style='border-collapse:collapse; width:100%'>")
+                .append("<tr style='background-color:#f2f2f2'><th>Test Method</th><th>Status</th><th>Failure Reason</th><th>Execution Time (s)</th></tr>");
+
         for (String[] row : suiteSummaryData) {
             String status = row[3];
             if ("PASS".equalsIgnoreCase(status)) totalPassed++;
             else if ("FAIL".equalsIgnoreCase(status)) totalFailed++;
             else if ("SKIP".equalsIgnoreCase(status)) totalSkipped++;
-        }
 
+            summaryTableHtml.append("<tr>")
+                    .append("<td>").append(row[0]).append("</td>")
+                    .append("<td>").append(status).append("</td>")
+                    .append("<td>").append(row[4] == null ? "" : row[4]).append("</td>")
+                    .append("<td>").append(row[5]).append("</td>")
+                    .append("</tr>");
+        }
+        summaryTableHtml.append("</table>");
+
+        int totalTests = totalPassed + totalFailed + totalSkipped;
+        double passPercent = totalTests > 0 ? totalPassed * 100.0 / totalTests : 0;
+        double failPercent = totalTests > 0 ? totalFailed * 100.0 / totalTests : 0;
+
+        // Detailed report system info
         detailedExtent.setSystemInfo("Environment", environment);
         detailedExtent.setSystemInfo("Browser", browser);
         detailedExtent.setSystemInfo("Execution Mode", executionMode);
@@ -136,5 +149,11 @@ public class ExtentReport {
         detailedExtent.setSystemInfo("Total Passed", String.valueOf(totalPassed));
         detailedExtent.setSystemInfo("Total Failed", String.valueOf(totalFailed));
         detailedExtent.setSystemInfo("Total Skipped", String.valueOf(totalSkipped));
+        detailedExtent.setSystemInfo("Pass %", String.format("%.2f", passPercent));
+        detailedExtent.setSystemInfo("Fail %", String.format("%.2f", failPercent));
+        detailedExtent.setSystemInfo("OS", System.getProperty("os.name"));
+        detailedExtent.setSystemInfo("Java Version", System.getProperty("java.version"));
+        detailedExtent.setSystemInfo("Executed By", System.getProperty("user.name"));
+
     }
 }

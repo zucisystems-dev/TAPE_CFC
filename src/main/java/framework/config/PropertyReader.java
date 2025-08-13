@@ -80,7 +80,7 @@ public class PropertyReader {
 
 	}
 
-	public static String readDynamicProperty(String fileName, String key) {
+	public static String getProperty(String fileName, String key) {
 		File file = new File("src/main/resources/properties/" + fileName +".properties");
 		String returnText = "";
 		try(FileInputStream fileInput = new FileInputStream(file)) {

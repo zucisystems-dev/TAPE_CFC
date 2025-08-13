@@ -66,18 +66,35 @@ public class TestBase {
 
     @BeforeMethod
     public void beforeMethod(Method method, ITestContext context) {
+        System.out.println("Inside Before method");
         setBrowserName(context.getCurrentXmlTest().getParameter("browser"));
         if (getBrowserName().equalsIgnoreCase("chrome")) {
+            System.out.println("Inside Chrome method");
             setStartTime(System.currentTimeMillis());
             DriverFactory.setDriver(getBrowserName());
             WebDriver driver = DriverFactory.getDriver();
             objectInitiator(driver);
             driver.manage().window().maximize();
             driver.get(getUrl());
-        } else if (getBrowserName().equalsIgnoreCase("api")) {
+        }
+        else if (getBrowserName().equalsIgnoreCase("edge")) {
+            System.out.println("Inside Edge method");
+            setStartTime(System.currentTimeMillis());
+            DriverFactory.setDriver(getBrowserName());
+            WebDriver driver = DriverFactory.getDriver();
+            objectInitiator(driver);
+            driver.manage().window().maximize();
+            driver.get(getUrl());
+        }
+        else if (getBrowserName().equalsIgnoreCase("api")) {
             logger.info("Before Method: API Testing Starts");
             setStartTime(System.currentTimeMillis());
             apiObjectInitiator();
+        }else if(getBrowserName().equalsIgnoreCase("android")||getBrowserName().equalsIgnoreCase("ios")) {
+            DriverFactory.setDriver(getBrowserName());
+            WebDriver driver = DriverFactory.getDriver();
+            setStartTime(System.currentTimeMillis());
+            objectInitiator(driver);
         }
     }
 
@@ -96,12 +113,42 @@ public class TestBase {
                 logger.error("Error in calculateExecutionTime", e);
             }
             CustomTestListener.removeAllTests();
-        } else if (getBrowserName().equalsIgnoreCase("api")) {
+        }
+        else if (getBrowserName().equalsIgnoreCase("edge"))
+        {
+            logger.info("After Method: Quitting browser...");
+            try {
+                DriverFactory.quitDriver();
+            } catch (Exception e) {
+                logger.error("Error during driver quit", e);
+            }
+            try {
+                calculateExecutionTime(method);
+            } catch (Exception e) {
+                logger.error("Error in calculateExecutionTime", e);
+            }
+            CustomTestListener.removeAllTests();
+        }
+        else if (getBrowserName().equalsIgnoreCase("api")) {
             logger.info("After Method: API Testing Ends");
             try {
                 calculateExecutionTime(method);
             } catch (Exception e) {
                 logger.error("Error in calculateExecutionTime", e);
+            }
+            CustomTestListener.removeAllTests();
+        }
+        else if (getBrowserName().equalsIgnoreCase("android")||getBrowserName().equalsIgnoreCase("ios")) {
+            logger.info("After Method: Mobile Testing Ends");
+            try {
+                calculateExecutionTime(method);
+            } catch (Exception e) {
+                logger.error("Error in calculateExecutionTime", e);
+            }
+            try {
+                DriverFactory.quitDriver();
+            } catch (Exception e) {
+                logger.error("Error during driver quit", e);
             }
             CustomTestListener.removeAllTests();
         }

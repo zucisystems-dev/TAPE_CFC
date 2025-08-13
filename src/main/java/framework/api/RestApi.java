@@ -408,7 +408,7 @@ public class RestApi {
 	public Response restApiPostRequest(ITestContext context) {
 		try {
 			String[] paramArray = context.getCurrentXmlTest().getParameter("env").split("_");
-			url = PropertyReader.readDynamicProperty(paramArray[1],"postAPIURL");
+			url = PropertyReader.getProperty(paramArray[1],"postAPIURL");
 			apiResponse = given()
 					.filter(new RestAssuredRequestFilter())
 					.header(contentTypeHeader, contentTypeJson)
@@ -445,7 +445,7 @@ public class RestApi {
 	public Response restApiPatchRequest(ITestContext context) {
 		try{
 			String[] paramArray = context.getCurrentXmlTest().getParameter("env").split("_");
-			url = PropertyReader.readDynamicProperty(paramArray[1],"postAPIURL");
+			url = PropertyReader.getProperty(paramArray[1],"postAPIURL");
 			url = url + "/" + context.getAttribute("testAttribute");
 			apiResponse = given()
 					.filter(new RestAssuredRequestFilter())
@@ -462,7 +462,7 @@ public class RestApi {
 	public Response restApiGetRequest(ITestContext context) {
 		try {
 			String[] paramArray = context.getCurrentXmlTest().getParameter("env").split("_");
-			url = PropertyReader.readDynamicProperty(paramArray[1],"getAPIURL");
+			url = PropertyReader.getProperty(paramArray[1],"getAPIURL");
 			apiResponse = given()
 					.header(contentTypeHeader, contentTypeJson)
 					.header(apiKeyHeader,apiKeyValue)

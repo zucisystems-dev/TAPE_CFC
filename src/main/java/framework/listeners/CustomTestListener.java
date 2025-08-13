@@ -1,12 +1,15 @@
 package framework.listeners;
 
 import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.gherkin.model.Scenario;
 import framework.config.PropertyReader;
 import framework.utils.ExcelUtil;
 import framework.utils.ExtentReport;
 import framework.utils.ExceptionMessageLoader;
 import framework.base.DriverFactory;
 import framework.utils.TestExecutionLogger;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.testng.*;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
@@ -48,10 +51,9 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         List<TestExecutionLogger> result = TestExecutionLogger.getResults();
         ExcelUtil.writeFromList(result);
 
-        ExtentReport.getDetailedExtent().setSystemInfo("Environment", environment);
-        ExtentReport.getDetailedExtent().setSystemInfo("Browser", browser);
-        ExtentReport.getDetailedExtent().setSystemInfo("Execution Mode", parallel ? "Parallel" : "Sequential");
-        ExtentReport.getDetailedExtent().setSystemInfo("Thread Count", String.valueOf(threadCount));
+        ExtentReport.writeSuiteSummary(environment, browser,
+                    parallel ? "Parallel" : "Sequential", threadCount);
+
         ExtentReport.flushReports();
         } else {
             System.out.println("No suite results found.");
@@ -93,6 +95,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 .setEnvironment(environment).setStatus(getStatusAsString(result))
                 .setFailureReason(null).setTestStartTime(time.get("exeStartTime"))
                 .setTestEndTime(time.get("exeEndTime")));
+        markBrowserStackSession(result);
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -132,6 +135,9 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 .setEnvironment(environment).setStatus(getStatusAsString(result))
                 .setFailureReason(friendlyMessage).setTestStartTime(time.get("exeStartTime"))
                 .setTestEndTime(time.get("exeEndTime")));
+
+        markBrowserStackSession(result);
+        
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -159,6 +165,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 .setEnvironment(environment).setStatus(getStatusAsString(result))
                 .setFailureReason(null).setTestStartTime(time.get("exeStartTime"))
                 .setTestEndTime(time.get("exeEndTime")));
+        markBrowserStackSession(result);
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -226,5 +233,44 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
 
         return formatter.format(Instant.ofEpochMilli(millis));
     }
+
+    private void markBrowserStackSession(ITestResult result) {
+        try {
+            WebDriver driver = DriverFactory.getDriver();
+            if (driver == null) return;
+
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+            String status;
+            String reason;
+
+            switch (result.getStatus()) {
+                case ITestResult.SUCCESS:
+                    status = "passed";
+                    reason = "Test passed";
+                    break;
+                case ITestResult.FAILURE:
+                    status = "failed";
+                    reason = "Test failed: " + result.getThrowable();
+                    break;
+                case ITestResult.SKIP:
+                    status = "skipped";
+                    reason = "Test skipped";
+                    break;
+                default:
+                    status = "unknown";
+                    reason = "Unknown status";
+            }
+
+            jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", " +
+                    "\"arguments\": {\"status\":\"" + status + "\", \"reason\": \"" + reason + "\"}}");
+
+            logger.info("BrowserStack session status set to: {}", status);
+
+        } catch (Exception e) {
+            logger.warn("Failed to set BrowserStack session status: {}", e.getMessage());
+        }
+    }
+
 
 }

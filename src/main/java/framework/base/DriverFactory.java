@@ -8,6 +8,8 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -30,31 +32,58 @@ public class DriverFactory {
             DesiredCapabilities caps = new DesiredCapabilities();
             switch (strBrowserType) {
                 case "Chrome":
-                    ChromeOptions options = new ChromeOptions();
+                    ChromeOptions chromeOptions = new ChromeOptions();
                     if(PropertyReader.readProperty("headless").equalsIgnoreCase("true")){
-                        options.addArguments("--headless=new");
+                        chromeOptions.addArguments("--headless=new");
                     }
-                    options.addArguments("--window-size=1920,1080");
-                    options.addArguments("--no-sandbox");
-                    options.addArguments("--disable-gpu");
-                    options.addArguments("--disable-dev-shm-usage");
-                    options.addArguments("--remote-allow-origins=*");
-                    options.addArguments("--ignore-certificate-errors");
-                    options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                    chromeOptions.addArguments("--window-size=1920,1080");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--remote-allow-origins=*");
+                    chromeOptions.addArguments("--ignore-certificate-errors");
+                    chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                     if (PropertyReader.readProperty("useSeleniumManager").equalsIgnoreCase("true")) {
-                        System.out.println("########## Using Selenium Manager Driver ###########");
-                            WebDriver driver = new ChromeDriver(options);
-                            driver.manage().window().setSize(new Dimension(1920, 1080));
-                            driverThreadLocal.set(driver);
-                            wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
+                        System.out.println("########## Using Selenium Manager Chrome Driver ###########");
+                        WebDriver driver = new ChromeDriver(chromeOptions);
+                        driver.manage().window().setSize(new Dimension(1920, 1080));
+                        driverThreadLocal.set(driver);
+                        wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     } else {
-                        System.out.println("########## Using Manually downloaded Driver ###########");
+                        System.out.println("########## Using Manually downloaded Chrome Driver ###########");
                         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/driver/chromedriver.exe");
-                        WebDriver driver = new ChromeDriver(options);
+                        WebDriver driver = new ChromeDriver(chromeOptions);
                         driver.manage().window().setSize(new Dimension(1920, 1080));
                         driverThreadLocal.set(driver);
                         wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     }
+                    break;
+                case "Edge":
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    if(PropertyReader.readProperty("headless").equalsIgnoreCase("true")){
+                        edgeOptions.addArguments("--headless=new");
+                    }
+                    edgeOptions.addArguments("--window-size=1920,1080");
+                    edgeOptions.addArguments("--no-sandbox");
+                    edgeOptions.addArguments("--disable-gpu");
+                    edgeOptions.addArguments("--disable-dev-shm-usage");
+                    edgeOptions.addArguments("--remote-allow-origins=*");
+                    edgeOptions.addArguments("--ignore-certificate-errors");
+                    edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                    /*if (PropertyReader.readProperty("useSeleniumManager").equalsIgnoreCase("true")) {
+                        System.out.println("########## Using Selenium Manager Edge Driver ###########");
+                        WebDriver driver = new EdgeDriver(edgeOptions);
+                        driver.manage().window().setSize(new Dimension(1920, 1080));
+                        driverThreadLocal.set(driver);
+                        wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
+                    } else {*/
+                    System.out.println("########## Using Manually downloaded Edge Driver ###########");
+                    System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + "/driver/msedgedriver.exe");
+                    WebDriver driver = new EdgeDriver(edgeOptions);
+                    driver.manage().window().setSize(new Dimension(1920, 1080));
+                    driverThreadLocal.set(driver);
+                    wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
+                    //}
                     break;
                 case "Android":
                     try {
