@@ -14,13 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.nio.file.Files;
 
-import static framework.utils.ExtentReport.today;
+import static framework.utils.ExtentReport.TIMESTAMP;
 
 public class ScreenShotUtil {
 
     public static void captureScreenshot(Status status, String message) {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-        String screenshotPath = "Reports\\" + today + "\\Screenshots\\" + "ECS_" + timestamp + ".png";
+        String screenshotPath = "Reports\\" + TIMESTAMP + "\\Screenshots\\" + "ECS_" + timestamp + ".png";
         String relativePath = "Screenshots\\" + "ECS_" + timestamp + ".png";
 
         File screenshotFile = ((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.FILE);

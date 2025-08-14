@@ -2,6 +2,7 @@ package app.web.ECS;
 
 import framework.utils.WebActions;
 import com.aventstack.extentreports.Status;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -73,9 +74,9 @@ public class ECSLoginPage extends WebActions {
     public void logInToApplication() {
         setText(boxUserName, getTestData().get("username"), "Username is entered");
         setText(boxPassword, getTestData().get("password"),"Password is entered");
-        scrolltoElement(boxPassword);
-        waitTillElementClickable(btnLogIn);
+        scrolltoElement(btnLogIn);
         captureScreenshot(Status.PASS,"Username and Password is entered");
+        boxPassword.sendKeys(Keys.TAB);
         clickElement(btnLogIn, "Login Button is Clicked");
     }
 

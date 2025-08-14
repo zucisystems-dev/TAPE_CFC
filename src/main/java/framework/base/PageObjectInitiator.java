@@ -1,6 +1,8 @@
 package framework.base;
 
 
+import app.mobile.ECS.ECSLoginPageAndroid;
+import app.mobile.ECS.ECSLoginPageIOS;
 import app.web.ECS.*;
 import framework.api.RestApi;
 import org.openqa.selenium.WebDriver;
@@ -60,6 +62,14 @@ public class PageObjectInitiator {
 
     public static ECSStatementsPage getObjectStatementsPage(){
         return ECS_STATEMENTS_PAGE.get();
+    }
+
+    public static ECSLoginPageAndroid getObjectAndroidLoginPage(){
+        return ECS_LOGIN_ANDROID_PAGE.get();
+    }
+
+    public static ECSLoginPageIOS getObjectLoginIOSPage(){
+        return ECS_LOGIN_IOS_PAGE.get();
     }
 
     public static RestApi getObjectRestApi(){

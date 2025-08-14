@@ -4,6 +4,7 @@ import framework.config.PropertyReader;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,11 +12,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
 
 
 public class DriverFactory {
@@ -30,8 +33,14 @@ public class DriverFactory {
     public static void setDriver(String strBrowserType) {
         try {
             DesiredCapabilities caps = new DesiredCapabilities();
+            String user = PropertyReader.getProperty("config","bs_user");
+            String key  = PropertyReader.getProperty("config","bs_key");
+            MutableCapabilities capabilities = new MutableCapabilities();
+            HashMap<String, Object> stackOptions = new HashMap<>();
+            String url = "https://" + user + ":" + key + "@hub-cloud.browserstack.com/wd/hub";
+
             switch (strBrowserType) {
-                case "Chrome":
+                case "chrome":
                     ChromeOptions chromeOptions = new ChromeOptions();
                     if(PropertyReader.readProperty("headless").equalsIgnoreCase("true")){
                         chromeOptions.addArguments("--headless=new");
@@ -45,10 +54,10 @@ public class DriverFactory {
                     chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                     if (PropertyReader.readProperty("useSeleniumManager").equalsIgnoreCase("true")) {
                         System.out.println("########## Using Selenium Manager Chrome Driver ###########");
-                            WebDriver driver = new ChromeDriver(chromeOptions);
-                            driver.manage().window().setSize(new Dimension(1920, 1080));
-                            driverThreadLocal.set(driver);
-                            wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
+                        WebDriver driver = new ChromeDriver(chromeOptions);
+                        driver.manage().window().setSize(new Dimension(1920, 1080));
+                        driverThreadLocal.set(driver);
+                        wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     } else {
                         System.out.println("########## Using Manually downloaded Chrome Driver ###########");
                         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/driver/chromedriver.exe");
@@ -58,7 +67,7 @@ public class DriverFactory {
                         wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     }
                     break;
-                case "Edge":
+                case "edge":
                     EdgeOptions edgeOptions = new EdgeOptions();
                     if(PropertyReader.readProperty("headless").equalsIgnoreCase("true")){
                         edgeOptions.addArguments("--headless=new");
@@ -77,21 +86,15 @@ public class DriverFactory {
                         driverThreadLocal.set(driver);
                         wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     } else {*/
-                        System.out.println("########## Using Manually downloaded Edge Driver ###########");
-                        System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + "/driver/msedgedriver.exe");
-                        WebDriver driver = new EdgeDriver(edgeOptions);
-                        driver.manage().window().setSize(new Dimension(1920, 1080));
-                        driverThreadLocal.set(driver);
-                        wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
-                    //}
+                    System.out.println("########## Using Manually downloaded Edge Driver ###########");
+                    System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + "/driver/msedgedriver.exe");
+                    WebDriver driver = new EdgeDriver(edgeOptions);
+                    driver.manage().window().setSize(new Dimension(1920, 1080));
+                    driverThreadLocal.set(driver);
+                    wait.set(new WebDriverWait(driver, Duration.ofSeconds(30)));
                     break;
-                case "Android":
+                case "android_app":
                     try {
-                        String user = PropertyReader.getProperty("config","bs_user");
-                        String key = PropertyReader.getProperty("config","bs_key");
-
-                        String url = "https://"+ user+":"+key+"@hub-cloud.browserstack.com/wd/hub";
-
                         caps.setCapability("browserstack.user", user);
                         caps.setCapability("browserstack.key", key);
 
@@ -114,12 +117,8 @@ public class DriverFactory {
                         throw new RuntimeException("Failed to initialize BrowserStack mobile driver: " + e.getMessage(), e);
                     }
                     break;
-                case "IOS":
+                case "ios_app":
                     try {
-                        String user = PropertyReader.getProperty("config","bs_user");
-                        String key = PropertyReader.getProperty("config","bs_key");
-                        String url = "https://" + user + ":" + key + "@hub-cloud.browserstack.com/wd/hub";
-
                         caps.setCapability("browserstack.user", user);
                         caps.setCapability("browserstack.key", key);
 
@@ -138,6 +137,35 @@ public class DriverFactory {
                     } catch (Exception e) {
                         throw new RuntimeException("Failed to initialize BrowserStack iOS driver: " + e.getMessage(), e);
                     }
+                    break;
+                case "android_chrome":
+                    capabilities.setCapability("browserName", "chrome");
+                    stackOptions.put("osVersion", PropertyReader.getProperty("config","android_os_version"));
+                    stackOptions.put("deviceName", PropertyReader.getProperty("config","android_device"));
+                    stackOptions.put("userName", user);
+                    stackOptions.put("accessKey", key);
+                    stackOptions.put("consoleLogs", "info");
+                    stackOptions.put("projectName", "ECS Android - Web Automation");
+                    stackOptions.put("buildName", "Mobile Web Regression");
+                    stackOptions.put("sessionName", "ECS Scripts");
+                    capabilities.setCapability("bstack:options", stackOptions);
+                    driverThreadLocal.set(new RemoteWebDriver(new URL(url), capabilities));
+                    wait.set(new WebDriverWait(driverThreadLocal.get(), Duration.ofSeconds(30)));
+                    break;
+                case "ios_safari":
+                    capabilities = new MutableCapabilities();
+                    capabilities.setCapability("browserName", "safari");
+                    stackOptions.put("osVersion", PropertyReader.getProperty("config","ios_os_version"));
+                    stackOptions.put("deviceName", PropertyReader.getProperty("config","ios_device"));
+                    stackOptions.put("userName", user);
+                    stackOptions.put("accessKey", key);
+                    stackOptions.put("projectName", "ECS IOS - Web Testing");
+                    stackOptions.put("buildName", "Mobile Web Regression");
+                    stackOptions.put("sessionName", "ECS Scripts");
+                    capabilities.setCapability("bstack:options", stackOptions);
+                    driverThreadLocal.set(new RemoteWebDriver(new URL(url), capabilities));
+                    wait.set(new WebDriverWait(driverThreadLocal.get(), Duration.ofSeconds(30)));
+                    break;
                 default:
                     break;
             }
