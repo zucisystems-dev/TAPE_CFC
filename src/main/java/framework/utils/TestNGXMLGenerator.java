@@ -3,6 +3,8 @@ package framework.utils;
 import framework.config.PropertyReader;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.TestNG;
 import org.testng.xml.*;
 
@@ -10,6 +12,7 @@ import java.io.*;
 import java.util.*;
 public class TestNGXMLGenerator {
 
+    private static final Logger log = LoggerFactory.getLogger(TestNGXMLGenerator.class);
     static String appName = AppConfigUtil.getAppName();
     static String[] suiteArray = appName.split("_");
     static String appModule = suiteArray[0];
@@ -22,7 +25,6 @@ public class TestNGXMLGenerator {
     private final String[] paramName;
     private final String[] paramValue;
     private final String executeFlag;
-    private final String parallelFlag;
 
     private TestNGXMLGenerator(Builder builder){
         suiteName = builder.suiteName;
@@ -33,7 +35,6 @@ public class TestNGXMLGenerator {
         paramName = builder.paramName;
         paramValue = builder.paramValue;
         executeFlag = builder.executeFlag;
-        parallelFlag = builder.parallelFlag;
     }
 
     public static class Builder {
@@ -45,7 +46,6 @@ public class TestNGXMLGenerator {
         private String[] paramName;
         private String[] paramValue;
         private String executeFlag;
-        private String parallelFlag;
 
         public Builder setSuiteName(String suiteName){
             this.suiteName = suiteName;
@@ -87,11 +87,6 @@ public class TestNGXMLGenerator {
             return this;
         }
 
-        public Builder setParallelFlag(String parallelFlag){
-            this.parallelFlag = parallelFlag;
-            return this;
-        }
-
         public TestNGXMLGenerator build() {
             return new TestNGXMLGenerator(this);
         }
@@ -125,8 +120,7 @@ public class TestNGXMLGenerator {
                         .setMethodName(row.getCell(4).getStringCellValue())
                         .setParamName(row.getCell(5).getStringCellValue().split(","))
                         .setParamValue(row.getCell(6).getStringCellValue().split(","))
-                        .setExecuteFlag(row.getCell(7).getStringCellValue())
-                        .setParallelFlag(row.getCell(8).getStringCellValue()).build());
+                        .setExecuteFlag(row.getCell(7).getStringCellValue()).build());
             }
             workbook.close();
         }
@@ -139,12 +133,12 @@ public class TestNGXMLGenerator {
     static XmlSuite buildSuite(List<TestNGXMLGenerator> data) {
         XmlSuite suite = new XmlSuite();
         suite.setName(appModule + " " + suiteType + " " + "Suite");
-        suite.setParallel(XmlSuite.ParallelMode.TESTS);
         suite.addListener("framework.listeners.DynamicDependencyTransformer");
         suite.addListener("framework.listeners.CustomTestListener");
 
         Map<String, Map<String, List<String>>> testMap = new LinkedHashMap<>();
-        Map<String, String> testParams = new LinkedHashMap<>();
+        Map<String,Map<String, String>> testParams = new LinkedHashMap<>();
+
 
         for (TestNGXMLGenerator row : data) {
             if (!"Y".equalsIgnoreCase(row.executeFlag) || !row.suiteName.contains(suiteType)) continue;
@@ -153,26 +147,38 @@ public class TestNGXMLGenerator {
                     .computeIfAbsent(row.testName, k -> new LinkedHashMap<>())
                     .computeIfAbsent(row.className, k -> new ArrayList<>())
                     .add(row.methodName);
-            for(int i=0; i<row.paramName.length;i++)
-                    testParams.put(row.paramName[i], row.paramValue[i]);
+            Map<String,String> params = new LinkedHashMap<>();
+            for(int i=0; i<row.paramName.length;i++) {
+                params.put(row.paramName[i], row.paramValue[i]);
+            }
+            testParams.put(row.testName,params);
         }
 
-        suite.setParameters(testParams);
-        if(testMap.size()>5){
-            suite.setThreadCount(5);
-        }else{
-            suite.setThreadCount(testMap.size());
+        Map<String, String> suiteParams = new HashMap<>();
+        for (Map<String, String> paramMap : testParams.values()) {
+            if (paramMap.containsKey("env")) {
+                suiteParams.put("env", paramMap.get("env"));
+                break;
+            }
+        }
+        suite.setParameters(suiteParams);
+
+        if(PropertyReader.readProperty("parallelFlag").equalsIgnoreCase("true")) {
+            suite.setParallel(XmlSuite.ParallelMode.TESTS);
+            if(testMap.size() > 5) {
+                suite.setThreadCount(5);
+            } else {
+                suite.setThreadCount(testMap.size());
+            }
+        }else if(PropertyReader.readProperty("parallelFlag").equalsIgnoreCase("false")){
+            suite.setThreadCount(1);
         }
 
         for (String testName : testMap.keySet()) {
             XmlTest xmlTest = new XmlTest(suite);
             xmlTest.setName(testName);
-            for(TestNGXMLGenerator row : data) {
-                if(testName.equalsIgnoreCase(row.testName) && row.parallelFlag.equalsIgnoreCase("N")) {
-                    xmlTest.setParallel(XmlSuite.ParallelMode.NONE);
-                    break;
-                }
-            }
+            Map<String,String> parameter = testParams.get(testName);
+            xmlTest.setParameters(parameter);
             List<XmlClass> xmlClasses = new ArrayList<>();
             for (Map.Entry<String, List<String>> classEntry : testMap.get(testName).entrySet()) {
                 XmlClass xmlClass = new XmlClass(classEntry.getKey());
@@ -186,7 +192,6 @@ public class TestNGXMLGenerator {
 
             xmlTest.setXmlClasses(xmlClasses);
         }
-
         return suite;
     }
 

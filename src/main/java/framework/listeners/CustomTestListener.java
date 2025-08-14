@@ -47,7 +47,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
             boolean parallel = isParallelExecution(context);
             int threadCount = getThreadCount(context);
 
-        //TestExecutionLogger.writeToJsonFile(PropertyReader.readProperty("testResultJSONPath"));
+
         List<TestExecutionLogger> result = TestExecutionLogger.getResults();
         ExcelUtil.writeFromList(result);
 
