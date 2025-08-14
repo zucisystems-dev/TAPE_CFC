@@ -2,10 +2,12 @@ package app.web.ECS;
 
 import framework.utils.WebActions;
 import com.aventstack.extentreports.Status;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
 
@@ -34,13 +36,17 @@ public class ECSMakePaymentPage extends WebActions {
     WebElement btnCancel;
 
     public void validateMakePaymentPageDisplayed(){
+        try {
             waitTillElementVisible(btnPaymentAmount);
-            if(elementIsDisplayed(btnPaymentAmount) && elementIsDisplayed(btnMakeAPayment)){
-                captureScreenshot(Status.PASS,"ECS Make A Payment Page is displayed");
+            if (elementIsDisplayed(btnPaymentAmount) && elementIsDisplayed(btnMakeAPayment)) {
+                captureScreenshot(Status.PASS, "ECS Make A Payment Page is displayed");
+            } else {
+                captureScreenshot(Status.FAIL, "ECS Make A Payment is not displayed");
             }
-            else{
-                captureScreenshot(Status.FAIL,"ECS Make A Payment is not displayed");
-            }
+        }
+        catch(TimeoutException e){
+            Assert.fail("Make Payment Page not loaded");
+        }
     }
 
 }

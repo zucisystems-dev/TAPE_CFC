@@ -2,6 +2,8 @@ package app.web.ECS;
 
 import framework.utils.WebActions;
 import com.aventstack.extentreports.Status;
+import org.junit.Assert;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,12 +36,16 @@ public class ECSAutoPayPage extends WebActions {
     WebElement btnCancel;
 
     public void validateAutoPayPageDisplayed(){
-        waitTillElementVisible(titleSetUpAutoPay);
-        if(elementIsDisplayed(titleSetUpAutoPay)){
-            captureScreenshot(Status.PASS,"ECS Auto Pay Page is displayed");
+        try {
+            waitTillElementVisible(titleSetUpAutoPay);
+            if (elementIsDisplayed(titleSetUpAutoPay)) {
+                captureScreenshot(Status.PASS, "ECS Auto Pay Page is displayed");
+            } else {
+                captureScreenshot(Status.FAIL, "ECS Auto Pay Page is not displayed");
+            }
         }
-        else{
-            captureScreenshot(Status.FAIL,"ECS Auto Pay Page is not displayed");
+        catch(TimeoutException e){
+            Assert.fail("Auto Pay Page not Displayed");
         }
     }
 

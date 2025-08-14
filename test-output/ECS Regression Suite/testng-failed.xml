@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="4" parallel="tests" name="Failed suite [ECS Regression Suite]">
+  <parameter name="env" value="ECS_TEST"/>
+  <listeners>
+    <listener class-name="framework.listeners.CustomTestListener"/>
+    <listener class-name="framework.listeners.DynamicDependencyTransformer"/>
+    <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+  </listeners>
+  <test thread-count="4" parallel="tests" name="Navigate Make A Payment tests(failed)">
+    <parameter name="env" value="ECS_TEST"/>
+    <parameter name="browser" value="Chrome"/>
+    <classes>
+      <class name="tests.web.ECSScripts">
+        <methods>
+          <include name="afterMethod"/>
+          <include name="beforeMethod"/>
+          <include name="setupReport"/>
+          <include name="TC03_navigateToMakeAPaymentPage" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- tests.web.ECSScripts -->
+    </classes>
+  </test> <!-- Navigate Make A Payment tests(failed) -->
+  <test thread-count="4" parallel="tests" name="Navigate Auto Pay tests(failed)">
+    <parameter name="env" value="ECS_TEST"/>
+    <parameter name="browser" value="Edge"/>
+    <classes>
+      <class name="tests.web.ECSScripts">
+        <methods>
+          <include name="TC04_navigateToAutoPayPage" invocation-numbers="0"/>
+          <include name="afterMethod"/>
+          <include name="beforeMethod"/>
+          <include name="setupReport"/>
+        </methods>
+      </class> <!-- tests.web.ECSScripts -->
+    </classes>
+  </test> <!-- Navigate Auto Pay tests(failed) -->
+</suite> <!-- Failed suite [ECS Regression Suite] -->

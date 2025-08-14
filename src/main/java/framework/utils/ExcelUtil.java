@@ -98,7 +98,7 @@ public class ExcelUtil {
 
             CellStyle headerStyle = getHeaderCellStyle(workbook);
 
-            String[] headers = { "Test Name", "Browser", "Status", "Failure Reason", "Environment", "Test Start Time", "Test End Time","Execution Time" };
+            String[] headers = { "Test Name", "Browser", "Status", "Failure Reason", "Environment", "Test Start Time", "Test End Time","Execution Time", "Execution Type", "Thread Count"};
 
             Row headerRow = sheet.createRow(0);
             for (int i = 0; i < headers.length; i++) {
@@ -118,6 +118,8 @@ public class ExcelUtil {
                 row.createCell(5).setCellValue(result.getTestStartTime());
                 row.createCell(6).setCellValue(result.getTestEndTime());
                 row.createCell(7).setCellValue(result.getTestExecutionTime());
+                row.createCell(8).setCellValue(result.getTestExecutionType());
+                row.createCell(9).setCellValue(result.getThreadCount());
             }
 
             for(int i=0; i<headers.length; i++){

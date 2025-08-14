@@ -1,8 +1,10 @@
 package framework.utils;
 
+import com.aventstack.extentreports.ExtentTest;
 import framework.base.DriverFactory;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
+import org.junit.Assert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -32,14 +34,19 @@ public class ScreenShotUtil {
         }
 
         try {
+            ExtentTest test = ExtentReport.getDetailedTest();
             if(status.getName().equalsIgnoreCase("Pass")){
-                ExtentReport.getDetailedTest().pass(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                test.pass(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
             }
-            else if(status.getName().equalsIgnoreCase("Fail")){
-                ExtentReport.getDetailedTest().fail(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+            else if(status.getName().equalsIgnoreCase("Fail")) {
+                if (test != null) {
+                    test.fail(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                } else {
+                    System.err.println("ExtentTest is null while capturing and logging screenshot.");
+                }
             }
             else{
-                ExtentReport.getDetailedTest().info(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                test.info(message, MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
             }
 
         } catch (Exception e) {

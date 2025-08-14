@@ -17,7 +17,7 @@ public class DataProvider {
     public static String getJsonPath(String browser, Class<?> clazz) {
         String className = clazz.getSimpleName();
 
-        if (browser.equalsIgnoreCase("chrome")) {
+        if (browser.equalsIgnoreCase("chrome") || browser.equalsIgnoreCase("edge")) {
             browser = "web";
         } else if (browser.equalsIgnoreCase("ios") || browser.equalsIgnoreCase("android")) {
             browser = "mobile";

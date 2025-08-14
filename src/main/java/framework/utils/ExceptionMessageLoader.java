@@ -29,7 +29,16 @@ public class ExceptionMessageLoader {
 
     public static String getMessageForException(Throwable throwable) {
         String exceptionName = throwable.getClass().getSimpleName();
-        return exceptionMap.getOrDefault(exceptionName, "An unexpected error occurred.");
+        if(exceptionName.equalsIgnoreCase("AssertionError")){
+            for(String errorMsg : exceptionMap.keySet()){
+                if(throwable.toString().contains(errorMsg)){
+                    return exceptionMap.get(errorMsg);
+                }
+            }
+        }else {
+            return exceptionMap.getOrDefault(exceptionName, "An unexpected error occurred.");
+        }
+        return null;
     }
 }
 

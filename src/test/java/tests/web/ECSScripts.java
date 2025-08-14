@@ -26,7 +26,7 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
         openNewApplication(PropertyReader.getPropertyFileURL("CSP",
                 context.getCurrentXmlTest().getParameter("env").split("_")[1]), DriverFactory.getDriver());
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -58,7 +58,7 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectMakePaymentPage().validateMakePaymentPageDisplayed();
         openNewApplication(PropertyReader.getPropertyFileURL("CSP",
                 context.getCurrentXmlTest().getParameter("env").split("_")[1]), DriverFactory.getDriver());
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
@@ -76,7 +76,7 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();
         PageObjectInitiator.getObjectHomePage().clickPaymentDueDate();
         PageObjectInitiator.getObjectAutoPayPage().validateAutoPayPageDisplayed();
-        PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
+        PageObjectInitiator.getObjectMakePaymentPage().validateMakePaymentPageDisplayed();
     }
 
     @Test(description = "Verify if user is able to navigate to Auto Pay page", dataProvider = "commonDataProvider", dataProviderClass = DataProvider.class)
@@ -92,7 +92,7 @@ public class ECSScripts extends TestBase {
         PageObjectInitiator.getObjectStatementsPage().validateStatementsPageDisplayed();
         openNewApplication(PropertyReader.getPropertyFileURL("CSP",
                 context.getCurrentXmlTest().getParameter("env").split("_")[1]), DriverFactory.getDriver());
-        PageObjectInitiator.getObjectLoginPage().handleProceedToLogin();
+        PageObjectInitiator.getObjectLoginPage().loginToECSApp();
         PageObjectInitiator.getObjectLoginPage().validateLogInPageDisplayed();
         PageObjectInitiator.getObjectLoginPage().logInToApplication();
         PageObjectInitiator.getObjectHomePage().validateHomePageDisplayed();

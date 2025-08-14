@@ -2,10 +2,12 @@ package app.web.ECS;
 
 import framework.utils.WebActions;
 import com.aventstack.extentreports.Status;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
 
@@ -25,12 +27,16 @@ public class ECSStatementsPage extends WebActions {
     WebElement btnStatementYear;
 
     public void validateStatementsPageDisplayed(){
-        waitTillElementVisible(titleStatements);
-        if(elementIsDisplayed(titleStatements)){
-            captureScreenshot(Status.PASS,"ECS Statements Page is displayed");
+        try {
+            waitTillElementVisible(titleStatements);
+            if (elementIsDisplayed(titleStatements)) {
+                captureScreenshot(Status.PASS, "ECS Statements Page is displayed");
+            } else {
+                captureScreenshot(Status.FAIL, "ECS Statements Page is not displayed");
+            }
         }
-        else{
-            captureScreenshot(Status.FAIL,"ECS Statements Page is not displayed");
+        catch(TimeoutException e){
+            Assert.fail("Statement Page not displayed");
         }
     }
 

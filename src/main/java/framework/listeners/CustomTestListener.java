@@ -2,11 +2,8 @@ package framework.listeners;
 
 import com.aventstack.extentreports.Status;
 import framework.config.PropertyReader;
-import framework.utils.ExcelUtil;
-import framework.utils.ExtentReport;
-import framework.utils.ExceptionMessageLoader;
+import framework.utils.*;
 import framework.base.DriverFactory;
-import framework.utils.TestExecutionLogger;
 import org.testng.*;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
@@ -15,23 +12,23 @@ import framework.base.TestBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import java.util.Collection;
+import java.util.*;
 
 public class CustomTestListener implements ITestListener, ISuiteListener {
 
     private static final ThreadLocal<Long> startTime = new ThreadLocal<>();
     private static final Logger logger = LogManager.getLogger(CustomTestListener.class);
+    public static String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
     @Override
     public void onStart(ISuite suite) {
         logger.info("Suite started: {}", suite.getName());
+        System.out.println("Allure output dir: " + System.getProperty("allure.results.directory"));
     }
 
     @Override
@@ -44,7 +41,6 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
             boolean parallel = isParallelExecution(context);
             int threadCount = getThreadCount(context);
 
-        //TestExecutionLogger.writeToJsonFile(PropertyReader.readProperty("testResultJSONPath"));
         List<TestExecutionLogger> result = TestExecutionLogger.getResults();
         ExcelUtil.writeFromList(result);
 
@@ -53,6 +49,7 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         ExtentReport.getDetailedExtent().setSystemInfo("Execution Mode", parallel ? "Parallel" : "Sequential");
         ExtentReport.getDetailedExtent().setSystemInfo("Thread Count", String.valueOf(threadCount));
         ExtentReport.flushReports();
+        generateAllureReports();
         } else {
             System.out.println("No suite results found.");
         }
@@ -92,7 +89,8 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 setTestName(result.getMethod().getMethodName()).setBrowser(browser)
                 .setEnvironment(environment).setStatus(getStatusAsString(result))
                 .setFailureReason(null).setTestStartTime(time.get("exeStartTime"))
-                .setTestEndTime(time.get("exeEndTime")));
+                .setTestEndTime(time.get("exeEndTime")).setThreadCount(String.valueOf(getThreadCount(result.getTestContext())))
+                .setTestExecutionType(isParallelExecution(result.getTestContext()) ? "Parallel" : "Sequential"));
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -131,7 +129,8 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 setTestName(result.getMethod().getMethodName()).setBrowser(browser)
                 .setEnvironment(environment).setStatus(getStatusAsString(result))
                 .setFailureReason(friendlyMessage).setTestStartTime(time.get("exeStartTime"))
-                .setTestEndTime(time.get("exeEndTime")));
+                .setTestEndTime(time.get("exeEndTime")).setThreadCount(String.valueOf(getThreadCount(result.getTestContext())))
+                .setTestExecutionType(isParallelExecution(result.getTestContext()) ? "Parallel" : "Sequential"));
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -142,7 +141,11 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         ExtentReport.getDetailedTest().skip("Test Skipped" + (skipReason != null ? ": " + skipReason : ""));
         ExtentReport.getEmailableTest().skip("Test Skipped" + (skipReason != null ? ": " + skipReason : ""));
         logger.warn("Test skipped: {}", result.getMethod().getMethodName());
-        Map<String,String> time = logExecutionTime(result);
+        Map<String, String> time = logExecutionTime(result);
+        String friendlyMessage = null;
+        if (skipReason != null) {
+            friendlyMessage = ExceptionMessageLoader.getMessageForException(skipReason);
+        }
 
         String environment = getParameterOrSystemProperty(result.getTestContext(), "env");
         String browser = getParameterOrSystemProperty(result.getTestContext(), "browser");
@@ -157,8 +160,9 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
         TestExecutionLogger.add(TestExecutionLogger.TestResultData.builder().setTestExecutionTime(time.get("executionTime")).
                 setTestName(result.getMethod().getMethodName()).setBrowser(browser)
                 .setEnvironment(environment).setStatus(getStatusAsString(result))
-                .setFailureReason(null).setTestStartTime(time.get("exeStartTime"))
-                .setTestEndTime(time.get("exeEndTime")));
+                .setFailureReason(friendlyMessage).setTestStartTime(time.get("exeStartTime"))
+                .setTestEndTime(time.get("exeEndTime")).setThreadCount(String.valueOf(getThreadCount(result.getTestContext())))
+                .setTestExecutionType(isParallelExecution(result.getTestContext()) ? "Parallel" : "Sequential"));
         TestBase.clearTestData();
         removeAllTests();
     }
@@ -225,6 +229,19 @@ public class CustomTestListener implements ITestListener, ISuiteListener {
                 .withZone(ZoneId.systemDefault());
 
         return formatter.format(Instant.ofEpochMilli(millis));
+    }
+
+    public static void generateAllureReports(){
+        try {
+
+            String reportDir = "target/allure-report-" + timestamp;
+            String command = "C:\\allure-2.34.0\\bin\\allure.bat generate "  + TestNGXMLGenerator.resultsDir + "--clean -o " + reportDir;
+            Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            System.out.println("Allure report generated at target/allure-report");
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

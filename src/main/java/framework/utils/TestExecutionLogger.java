@@ -15,6 +15,8 @@ public class TestExecutionLogger {
     private final String testExecutionTime;
     private final String testStartTime;
     private final String testEndTime;
+    private final String testExecutionType;
+    private final String threadCount;
 
     private TestExecutionLogger(TestResultData testResultData){
         testName = testResultData.testName;
@@ -25,6 +27,8 @@ public class TestExecutionLogger {
         testExecutionTime = testResultData.testExecutionTime;
         testStartTime = testResultData.testStartTime;
         testEndTime = testResultData.testEndTime;
+        testExecutionType = testResultData.testExecutionType;
+        threadCount = testResultData.threadCount;
     }
 
     public static class TestResultData {
@@ -37,6 +41,8 @@ public class TestExecutionLogger {
         private String testExecutionTime;
         private String testStartTime;
         private String testEndTime;
+        private String testExecutionType;
+        private String threadCount;
 
         public static TestResultData builder() {
             return new TestResultData();
@@ -72,13 +78,23 @@ public class TestExecutionLogger {
             return this;
         }
 
+        public TestResultData setTestExecutionTime(String testExecutionTime) {
+            this.testExecutionTime = testExecutionTime;
+            return this;
+        }
+
         public TestResultData setTestEndTime(String testEndTime) {
             this.testEndTime = testEndTime;
             return this;
         }
 
-        public TestResultData setTestExecutionTime(String testExecutionTime) {
-            this.testExecutionTime = testExecutionTime;
+        public TestResultData setTestExecutionType(String testExecutionType) {
+            this.testExecutionType = testExecutionType;
+            return this;
+        }
+
+        public TestResultData setThreadCount(String threadCount) {
+            this.threadCount = threadCount;
             return this;
         }
 
@@ -137,6 +153,14 @@ public class TestExecutionLogger {
 
     public String getTestEndTime() {
         return testEndTime;
+    }
+
+    public String getTestExecutionType() {
+        return testExecutionType;
+    }
+
+    public String getThreadCount() {
+        return threadCount;
     }
 
 }

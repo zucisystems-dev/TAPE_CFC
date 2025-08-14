@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.ITestContext;
 
 import java.awt.*;
@@ -49,11 +50,11 @@ public class WebActions extends TestBase {
     }
 
     public static void waitTillElementVisible(WebElement ele) {
-        DriverFactory.getWait().until(ExpectedConditions.visibilityOf(ele));
+            DriverFactory.getWait().until(ExpectedConditions.visibilityOf(ele));
     }
 
     public static void waitTillElementClickable(WebElement ele) {
-        DriverFactory.getWait().until(ExpectedConditions.elementToBeClickable(ele));
+            DriverFactory.getWait().until(ExpectedConditions.elementToBeClickable(ele));
     }
 
     public static void logMessageInReport(String message){

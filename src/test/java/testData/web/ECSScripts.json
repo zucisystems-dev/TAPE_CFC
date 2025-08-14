@@ -7,16 +7,6 @@
 		},
 		{
 			"automationId": "TC02_logInToECSWithInvalidID",
-			"username": "tfukuhok",
-			"password": "wrongpass"
-		},
-		{
-			"automationId": "TC02_logInToECSWithInvalidID",
-			"username": "jikolplom",
-			"password": "hdhdhduj"
-		},
-		{
-			"automationId": "TC02_logInToECSWithInvalidID",
 			"username": "aaksjiid",
 			"password": "hhdudjie"
 		},

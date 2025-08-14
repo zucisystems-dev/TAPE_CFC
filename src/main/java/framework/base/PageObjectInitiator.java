@@ -13,6 +13,8 @@ public class PageObjectInitiator {
     static ThreadLocal<ECSAutoPayPage> ECS_AUTOPAY_PAGE = new ThreadLocal<ECSAutoPayPage>();
     static ThreadLocal<ECSStatementsPage> ECS_STATEMENTS_PAGE = new ThreadLocal<ECSStatementsPage>();
     static ThreadLocal<RestApi> REST_API = new ThreadLocal<>();
+    static ThreadLocal<ECSLoginPageAndroid> ECS_LOGIN_ANDROID_PAGE = new ThreadLocal<>();
+    static ThreadLocal<ECSLoginPageIOS> ECS_LOGIN_IOS_PAGE = new ThreadLocal<>();
 
     private PageObjectInitiator(){
         throw new UnsupportedOperationException("Object Initiator class — do not instantiate.");
@@ -24,10 +26,20 @@ public class PageObjectInitiator {
         ECS_MAKEPAYMENT_PAGE.set(new ECSMakePaymentPage(driver));
         ECS_AUTOPAY_PAGE.set(new ECSAutoPayPage(driver));
         ECS_STATEMENTS_PAGE.set(new ECSStatementsPage(driver));
+        ECS_LOGIN_ANDROID_PAGE.set(new ECSLoginPageAndroid(driver));
+        ECS_LOGIN_IOS_PAGE.set(new ECSLoginPageIOS(driver));
     }
 
     public static void apiObjectInitiator(){
         REST_API.set(new RestApi());
+    }
+
+    public static ECSLoginPageAndroid getObjectAndroidLoginPage(){
+        return ECS_LOGIN_ANDROID_PAGE.get();
+    }
+
+    public static ECSLoginPageIOS getObjectLoginIOSPage(){
+        return ECS_LOGIN_IOS_PAGE.get();
     }
 
     public static ECSLoginPage getObjectLoginPage(){

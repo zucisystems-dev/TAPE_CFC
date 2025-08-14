@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import static framework.utils.ScreenShotUtil.captureScreenshot;
 
@@ -79,13 +80,17 @@ public class ECSLoginPage extends WebActions {
     }
 
     public void validateLogInPageDisplayed(){
+        try {
             waitTillElementVisible(boxUserName);
-            if(elementIsDisplayed(boxUserName) && elementIsDisplayed(boxPassword)){
-                captureScreenshot(Status.PASS,"ECS LogIn Page is displayed");
+            if (elementIsDisplayed(boxUserName) && elementIsDisplayed(boxPassword)) {
+                captureScreenshot(Status.PASS, "ECS LogIn Page is displayed");
+            } else {
+                captureScreenshot(Status.FAIL, "ECS LogIn Page is not displayed");
             }
-            else{
-                captureScreenshot(Status.FAIL,"ECS LogIn Page is not displayed");
-            }
+        }
+        catch(TimeoutException e){
+            Assert.fail("Login Page not loaded");
+        }
     }
 
     public void validateInvalidCredentialsMessage(){

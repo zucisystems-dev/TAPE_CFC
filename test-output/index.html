@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+  <meta charset='utf-8'>
+  <title>TestNG reports</title>
+
+    <link type="text/css" href="testng-reports1.css" rel="stylesheet" id="ultra" />
+    <link type="text/css" href="testng-reports.css" rel="stylesheet" id="retro" disabled="false"/>
+    <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="testng-reports.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['table']});
+      google.setOnLoadCallback(drawTable);
+      var suiteTableInitFunctions = new Array();
+      var suiteTableData = new Array();
+    </script>
+    <!--
+      <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+     -->
+  </head>
+
+  <body>    <div class="top-banner-root">
+      <span class="top-banner-title-font">Test results</span>
+      <button id="button" class="button">Switch Retro Theme</button> <!-- button -->
+      <br/>
+      <span class="top-banner-font-1">1 suite, 1 failed test</span>
+    </div> <!-- top-banner-root -->
+    <div class="navigator-root">
+      <div class="navigator-suite-header">
+        <span>All suites</span>
+        <a href="#" title="Collapse/expand all the suites" class="collapse-all-link">
+          <img src="collapseall.gif" class="collapse-all-icon">
+          </img> <!-- collapse-all-icon -->
+        </a> <!-- collapse-all-link -->
+      </div> <!-- navigator-suite-header -->
+      <div class="suite">
+        <div class="rounded-window">
+          <div class="suite-header light-rounded-window-top">
+            <a href="#" panel-name="suite-ECS_Sanity_Suite" class="navigator-link">
+              <span class="suite-name border-failed">ECS Sanity Suite</span>
+            </a> <!-- navigator-link -->
+          </div> <!-- suite-header light-rounded-window-top -->
+          <div class="navigator-suite-content">
+            <div class="suite-section-title">
+              <span>Info</span>
+            </div> <!-- suite-section-title -->
+            <div class="suite-section-content">
+              <ul>
+                <li>
+                  <a href="#" panel-name="test-xml-ECS_Sanity_Suite" class="navigator-link ">
+                    <span>[unset file name]</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="testlist-ECS_Sanity_Suite" class="navigator-link ">
+                    <span class="test-stats">3 tests</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="group-ECS_Sanity_Suite" class="navigator-link ">
+                    <span>0 groups</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="times-ECS_Sanity_Suite" class="navigator-link ">
+                    <span>Times</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="reporter-ECS_Sanity_Suite" class="navigator-link ">
+                    <span>Reporter output</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="ignored-methods-ECS_Sanity_Suite" class="navigator-link ">
+                    <span>Ignored methods</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="chronological-ECS_Sanity_Suite" class="navigator-link ">
+                    <span>Chronological view</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+              </ul>
+            </div> <!-- suite-section-content -->
+            <div class="result-section">
+              <div class="suite-section-title">
+                <span>Results</span>
+              </div> <!-- suite-section-title -->
+              <div class="suite-section-content">
+                <ul>
+                  <li>
+                    <span class="method-stats">5 methods, 1 failed,  2 skipped,  2 passed</span>
+                  </li>
+                  <li>
+                    <span class="method-list-title failed">Failed methods</span>
+                    <span class="show-or-hide-methods failed">
+                      <a href="#" panel-name="suite-ECS_Sanity_Suite" class="hide-methods failed suite-ECS_Sanity_Suite"> (hide)</a> <!-- hide-methods failed suite-ECS_Sanity_Suite -->
+                      <a href="#" panel-name="suite-ECS_Sanity_Suite" class="show-methods failed suite-ECS_Sanity_Suite"> (show)</a> <!-- show-methods failed suite-ECS_Sanity_Suite -->
+                    </span>
+                    <div class="method-list-content failed suite-ECS_Sanity_Suite">
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-ECS_Sanity_Suite" title="tests.web.ECSScripts" class="method navigator-link" hash-for-method="TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})">TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content failed suite-ECS_Sanity_Suite -->
+                  </li>
+                  <li>
+                    <span class="method-list-title skipped">Retried methods</span>
+                    <span class="show-or-hide-methods skipped">
+                      <a href="#" panel-name="suite-ECS_Sanity_Suite" class="hide-methods skipped suite-ECS_Sanity_Suite"> (hide)</a> <!-- hide-methods skipped suite-ECS_Sanity_Suite -->
+                      <a href="#" panel-name="suite-ECS_Sanity_Suite" class="show-methods skipped suite-ECS_Sanity_Suite"> (show)</a> <!-- show-methods skipped suite-ECS_Sanity_Suite -->
+                    </span>
+                    <div class="method-list-content skipped suite-ECS_Sanity_Suite">
+                      <span>
+                        <img src="skipped.png" width="3%"/>
+                        <a href="#" panel-name="suite-ECS_Sanity_Suite" title="tests.web.ECSScripts" class="method navigator-link" hash-for-method="TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})">TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="skipped.png" width="3%"/>
+                        <a href="#" panel-name="suite-ECS_Sanity_Suite" title="tests.web.ECSScripts" class="method navigator-link" hash-for-method="TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})">TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content skipped suite-ECS_Sanity_Suite -->
+                  </li>
+                  <li>
+                    <span class="method-list-title passed">Passed methods</span>
+                    <span class="show-or-hide-methods passed">
+                      <a href="#" panel-name="suite-ECS_Sanity_Suite" class="hide-methods passed suite-ECS_Sanity_Suite"> (hide)</a> <!-- hide-methods passed suite-ECS_Sanity_Suite -->
+                      <a href="#" panel-name="suite-ECS_Sanity_Suite" class="show-methods passed suite-ECS_Sanity_Suite"> (show)</a> <!-- show-methods passed suite-ECS_Sanity_Suite -->
+                    </span>
+                    <div class="method-list-content passed suite-ECS_Sanity_Suite">
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-ECS_Sanity_Suite" title="tests.web.ECSScripts" class="method navigator-link" hash-for-method="TC03_navigateToMakeAPaymentPage({automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082}, org.te...)">TC03_navigateToMakeAPaymentPage({automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082}, org.te...)</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-ECS_Sanity_Suite" title="tests.web.ECSScripts" class="method navigator-link" hash-for-method="TC05_navigateToStatementsPage({automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082}, org.test...)">TC05_navigateToStatementsPage({automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082}, org.test...)</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content passed suite-ECS_Sanity_Suite -->
+                  </li>
+                </ul>
+              </div> <!-- suite-section-content -->
+            </div> <!-- result-section -->
+          </div> <!-- navigator-suite-content -->
+        </div> <!-- rounded-window -->
+      </div> <!-- suite -->
+    </div> <!-- navigator-root -->
+    <div class="wrapper">
+      <div class="main-panel-root">
+        <div panel-name="suite-ECS_Sanity_Suite" class="panel ECS_Sanity_Suite">
+          <div class="suite-ECS_Sanity_Suite-class-failed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="failed.png"/>
+              <span class="class-name">tests.web.ECSScripts</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})">
+                  </a> <!-- TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082}) -->
+                  <span class="method-name">TC04_navigateToAutoPayPage</span>
+                  <span class="parameters">({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</span>
+                  <div class="stack-trace">java.lang.AssertionError: Make Payment Page not loaded
+	at app.web.ECS.ECSMakePaymentPage.validateMakePaymentPageDisplayed(ECSMakePaymentPage.java:48)
+	at tests.web.ECSScripts.TC04_navigateToAutoPayPage(ECSScripts.java:79)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+... Removed 10 stack frames
+</div> <!-- stack-trace -->
+                  <em>
+(Verify if user is able to navigate to Auto Pay page)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-ECS_Sanity_Suite-class-failed -->
+          <div class="suite-ECS_Sanity_Suite-class-skipped">
+            <div class="main-panel-header rounded-window-top">
+              <img src="skipped.png"/>
+              <span class="class-name">tests.web.ECSScripts</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})">
+                  </a> <!-- TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082}) -->
+                  <span class="method-name">TC04_navigateToAutoPayPage</span>
+                  <span class="parameters">({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</span>
+                  <div class="stack-trace">java.lang.AssertionError: Make Payment Page not loaded
+	at app.web.ECS.ECSMakePaymentPage.validateMakePaymentPageDisplayed(ECSMakePaymentPage.java:48)
+	at tests.web.ECSScripts.TC04_navigateToAutoPayPage(ECSScripts.java:79)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+... Removed 10 stack frames
+</div> <!-- stack-trace -->
+                  <em>
+(Verify if user is able to navigate to Auto Pay page)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})">
+                  </a> <!-- TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082}) -->
+                  <span class="method-name">TC04_navigateToAutoPayPage</span>
+                  <span class="parameters">({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</span>
+                  <div class="stack-trace">java.lang.AssertionError: Make Payment Page not loaded
+	at app.web.ECS.ECSMakePaymentPage.validateMakePaymentPageDisplayed(ECSMakePaymentPage.java:48)
+	at tests.web.ECSScripts.TC04_navigateToAutoPayPage(ECSScripts.java:79)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+... Removed 10 stack frames
+</div> <!-- stack-trace -->
+                  <em>
+(Verify if user is able to navigate to Auto Pay page)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-ECS_Sanity_Suite-class-skipped -->
+          <div class="suite-ECS_Sanity_Suite-class-passed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="passed.png"/>
+              <span class="class-name">tests.web.ECSScripts</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="TC03_navigateToMakeAPaymentPage({automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082}, org.te...)">
+                  </a> <!-- TC03_navigateToMakeAPaymentPage({automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082}, org.te...) -->
+                  <span class="method-name">TC03_navigateToMakeAPaymentPage</span>
+                  <span class="parameters">({automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082},org.testng.TestRunner@249c31a6)</span>
+                  <em>
+(Verify if user is able to navigate to Make A Payment page)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="TC05_navigateToStatementsPage({automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082}, org.test...)">
+                  </a> <!-- TC05_navigateToStatementsPage({automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082}, org.test...) -->
+                  <span class="method-name">TC05_navigateToStatementsPage</span>
+                  <span class="parameters">({automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082},org.testng.TestRunner@209046ff)</span>
+                  <em>
+(Verify if user is able to navigate to Auto Pay page)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-ECS_Sanity_Suite-class-passed -->
+        </div> <!-- panel ECS_Sanity_Suite -->
+        <div panel-name="test-xml-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE suite SYSTEM &quot;https://testng.org/testng-1.0.dtd&quot;&gt;
+&lt;suite thread-count=&quot;3&quot; parallel=&quot;tests&quot; name=&quot;ECS Sanity Suite&quot;&gt;
+  &lt;parameter name=&quot;env&quot; value=&quot;ECS_TEST&quot;/&gt;
+  &lt;listeners&gt;
+    &lt;listener class-name=&quot;framework.listeners.CustomTestListener&quot;/&gt;
+    &lt;listener class-name=&quot;framework.listeners.DynamicDependencyTransformer&quot;/&gt;
+    &lt;listener class-name=&quot;io.qameta.allure.testng.AllureTestNg&quot;/&gt;
+  &lt;/listeners&gt;
+  &lt;test thread-count=&quot;3&quot; parallel=&quot;tests&quot; name=&quot;Navigate Make A Payment tests&quot;&gt;
+    &lt;parameter name=&quot;env&quot; value=&quot;ECS_TEST&quot;/&gt;
+    &lt;parameter name=&quot;browser&quot; value=&quot;Chrome&quot;/&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;tests.web.ECSScripts&quot;&gt;
+        &lt;methods&gt;
+          &lt;include name=&quot;TC03_navigateToMakeAPaymentPage&quot;/&gt;
+        &lt;/methods&gt;
+      &lt;/class&gt; &lt;!-- tests.web.ECSScripts --&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt; &lt;!-- Navigate Make A Payment tests --&gt;
+  &lt;test thread-count=&quot;3&quot; parallel=&quot;tests&quot; name=&quot;Navigate Auto Pay tests&quot;&gt;
+    &lt;parameter name=&quot;env&quot; value=&quot;ECS_TEST&quot;/&gt;
+    &lt;parameter name=&quot;browser&quot; value=&quot;Edge&quot;/&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;tests.web.ECSScripts&quot;&gt;
+        &lt;methods&gt;
+          &lt;include name=&quot;TC04_navigateToAutoPayPage&quot;/&gt;
+        &lt;/methods&gt;
+      &lt;/class&gt; &lt;!-- tests.web.ECSScripts --&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt; &lt;!-- Navigate Auto Pay tests --&gt;
+  &lt;test thread-count=&quot;3&quot; parallel=&quot;tests&quot; name=&quot;Navigate Statement tests&quot;&gt;
+    &lt;parameter name=&quot;env&quot; value=&quot;ECS_TEST&quot;/&gt;
+    &lt;parameter name=&quot;browser&quot; value=&quot;Chrome&quot;/&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;tests.web.ECSScripts&quot;&gt;
+        &lt;methods&gt;
+          &lt;include name=&quot;TC05_navigateToStatementsPage&quot;/&gt;
+        &lt;/methods&gt;
+      &lt;/class&gt; &lt;!-- tests.web.ECSScripts --&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt; &lt;!-- Navigate Statement tests --&gt;
+&lt;/suite&gt; &lt;!-- ECS Sanity Suite --&gt;
+            </pre>
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="testlist-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Tests for ECS Sanity Suite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <ul>
+              <li>
+                <span class="test-name">Navigate Make A Payment tests (1 class)</span>
+              </li>
+              <li>
+                <span class="test-name">Navigate Auto Pay tests (1 class)</span>
+              </li>
+              <li>
+                <span class="test-name">Navigate Statement tests (1 class)</span>
+              </li>
+            </ul>
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="group-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Groups for ECS Sanity Suite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="times-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Times for ECS Sanity Suite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="times-div">
+              <script type="text/javascript">
+suiteTableInitFunctions.push('tableData_ECS_Sanity_Suite');
+function tableData_ECS_Sanity_Suite() {
+var data = new google.visualization.DataTable();
+data.addColumn('number', 'Number');
+data.addColumn('string', 'Method');
+data.addColumn('string', 'Class');
+data.addColumn('number', 'Time (ms)');
+data.addRows(5);
+data.setCell(0, 0, 0)
+data.setCell(0, 1, 'TC03_navigateToMakeAPaymentPage')
+data.setCell(0, 2, 'tests.web.ECSScripts')
+data.setCell(0, 3, 90269);
+data.setCell(1, 0, 1)
+data.setCell(1, 1, 'TC05_navigateToStatementsPage')
+data.setCell(1, 2, 'tests.web.ECSScripts')
+data.setCell(1, 3, 89792);
+data.setCell(2, 0, 2)
+data.setCell(2, 1, 'TC04_navigateToAutoPayPage')
+data.setCell(2, 2, 'tests.web.ECSScripts')
+data.setCell(2, 3, 81368);
+data.setCell(3, 0, 3)
+data.setCell(3, 1, 'TC04_navigateToAutoPayPage')
+data.setCell(3, 2, 'tests.web.ECSScripts')
+data.setCell(3, 3, 68205);
+data.setCell(4, 0, 4)
+data.setCell(4, 1, 'TC04_navigateToAutoPayPage')
+data.setCell(4, 2, 'tests.web.ECSScripts')
+data.setCell(4, 3, 68091);
+window.suiteTableData['ECS_Sanity_Suite']= { tableData: data, tableDiv: 'times-div-ECS_Sanity_Suite'}
+return data;
+}
+              </script>
+              <span class="suite-total-time">Total running time: 4 minutes</span>
+              <div id="times-div-ECS_Sanity_Suite">
+              </div> <!-- times-div-ECS_Sanity_Suite -->
+            </div> <!-- times-div -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="reporter-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Reporter output for ECS Sanity Suite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="ignored-methods-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">12 ignored methods</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="ignored-class-div">
+              <span class="ignored-class-name">tests.web.ECSScripts</span>
+              <div class="ignored-methods-div">
+                <span class="ignored-method-name">TC03_navigateToMakeAPaymentPage</span>
+                <br/>
+                <span class="ignored-method-name">TC04_navigateToAutoPayPage</span>
+                <br/>
+                <span class="ignored-method-name">TC02_logInToECSWithInvalidID</span>
+                <br/>
+                <span class="ignored-method-name">TC01_logInToECSWithValidID</span>
+                <br/>
+                <span class="ignored-method-name">TC05_navigateToStatementsPage</span>
+                <br/>
+                <span class="ignored-method-name">TC02_logInToECSWithInvalidID</span>
+                <br/>
+                <span class="ignored-method-name">TC02_logInToECSWithInvalidID</span>
+                <br/>
+                <span class="ignored-method-name">TC01_logInToECSWithValidID</span>
+                <br/>
+                <span class="ignored-method-name">TC04_navigateToAutoPayPage</span>
+                <br/>
+                <span class="ignored-method-name">TC03_navigateToMakeAPaymentPage</span>
+                <br/>
+                <span class="ignored-method-name">TC01_logInToECSWithValidID</span>
+                <br/>
+                <span class="ignored-method-name">TC05_navigateToStatementsPage</span>
+                <br/>
+              </div> <!-- ignored-methods-div -->
+            </div> <!-- ignored-class-div -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="chronological-ECS_Sanity_Suite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Methods in chronological order</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="chronological-class">
+              <div class="chronological-class-name">tests.web.ECSScripts</div> <!-- chronological-class-name -->
+              <div class="configuration-suite before">
+                <span class="method-name">setupReport(ECS_TEST)</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-suite before -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod(public void tests.web.ECSScripts.TC04_navigateToAutoPayPage(java.util.Map), org.testng.TestRunner@50...)</span>
+                <span class="method-start">2595 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod(public void tests.web.ECSScripts.TC03_navigateToMakeAPaymentPage(java.util.Map,org.testng.ITestConte...)</span>
+                <span class="method-start">2597 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod(public void tests.web.ECSScripts.TC05_navigateToStatementsPage(java.util.Map,org.testng.ITestContext...)</span>
+                <span class="method-start">2597 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</span>
+                <span class="method-start">38650 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">TC05_navigateToStatementsPage({automationId=TC05_navigateToStatementsPage, password=Password2!, username=liliiatest3082}, org.test...)</span>
+                <span class="method-start">43046 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">TC03_navigateToMakeAPaymentPage({automationId=TC03_navigateToMakeAPaymentPage, password=Password2!, username=liliiatest3082}, org.te...)</span>
+                <span class="method-start">55439 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">afterMethod([TestResult name=TC04_navigateToAutoPayPage status=SKIP method=ECSScripts.TC04_navigateToAutoPayPage...)</span>
+                <span class="method-start">120065 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod(public void tests.web.ECSScripts.TC04_navigateToAutoPayPage(java.util.Map), org.testng.TestRunner@50...)</span>
+                <span class="method-start">120643 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</span>
+                <span class="method-start">125466 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">afterMethod([TestResult name=TC05_navigateToStatementsPage status=SUCCESS method=ECSScripts.TC05_navigateToState...)</span>
+                <span class="method-start">133082 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method after">
+                <span class="method-name">afterMethod([TestResult name=TC03_navigateToMakeAPaymentPage status=SUCCESS method=ECSScripts.TC03_navigateToMak...)</span>
+                <span class="method-start">145715 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method after">
+                <span class="method-name">afterMethod([TestResult name=TC04_navigateToAutoPayPage status=SKIP method=ECSScripts.TC04_navigateToAutoPayPage...)</span>
+                <span class="method-start">193673 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod(public void tests.web.ECSScripts.TC04_navigateToAutoPayPage(java.util.Map), org.testng.TestRunner@50...)</span>
+                <span class="method-start">194184 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">TC04_navigateToAutoPayPage({automationId=TC04_navigateToAutoPayPage, password=Password2!, username=liliiatest3082})</span>
+                <span class="method-start">199491 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">afterMethod([TestResult name=TC04_navigateToAutoPayPage status=FAILURE method=ECSScripts.TC04_navigateToAutoPayP...)</span>
+                <span class="method-start">267813 ms</span>
+              </div> <!-- configuration-method after -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+      </div> <!-- main-panel-root -->
+    </div> <!-- wrapper -->
+  </body>
+<script type="text/javascript" src="testng-reports2.js"></script>
+</html>

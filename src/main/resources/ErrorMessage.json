@@ -12,5 +12,13 @@
 	"AssertionError": "Expected result did not match.",
 	"NullPointerException": "Object was not initialized.",
 	"FileNotFoundException": "Required file is missing.",
-	"IOException": "Error reading or writing file."
+	"IOException": "Error reading or writing file.",
+	"ElementNotSelectableException": "Element is not selectable",
+	"NoAlertPresentException": "Expected alert is not present",
+	"Login Page not loaded" : "Login Page not loaded within expected time",
+	"Auto Pay Page not Displayed" : "AutoPay Page not displayed within expected time",
+    "Home Page not Displayed" : "Home Page not displayed within expected time",
+    "Make Payment Page not loaded" : "Make Payment Page not displayed within expected time",
+    "Statement Page not displayed" : "Statement Page not displayed within expected time",
+	"Could not open the browser" : "Could not open the browser"
 }

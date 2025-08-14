@@ -2,6 +2,8 @@ package app.web.ECS;
 
 import framework.utils.WebActions;
 import com.aventstack.extentreports.Status;
+import org.junit.Assert;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -64,17 +66,20 @@ public class ECSHomePage extends WebActions{
 
     public void clickStatementBalance() {
         clickElement(btnLastStatementBalance, "Statement Balance button is clicked");
-        //btnLastStatementBalance.click();
     }
 
     public void validateHomePageDisplayed(){
+        try {
             waitTillElementVisible(linkPayments);
-            if(elementIsDisplayed(linkHome) && elementIsDisplayed(btnMinimumPaymentDue)){
-                captureScreenshot(Status.PASS,"ECS Home Page is displayed");
+            if (elementIsDisplayed(linkHome) && elementIsDisplayed(btnMinimumPaymentDue)) {
+                captureScreenshot(Status.PASS, "ECS Home Page is displayed");
+            } else {
+                captureScreenshot(Status.FAIL, "ECS Home Page is not displayed");
             }
-            else{
-                captureScreenshot(Status.FAIL,"ECS Home Page is not displayed");
-            }
+        }
+        catch(TimeoutException e){
+            Assert.fail("Home Page not Displayed");
+        }
     }
 
 }

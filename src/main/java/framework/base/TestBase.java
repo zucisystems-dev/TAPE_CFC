@@ -7,8 +7,9 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
-
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import static framework.base.PageObjectInitiator.apiObjectInitiator;
@@ -74,7 +75,16 @@ public class TestBase {
             objectInitiator(driver);
             driver.manage().window().maximize();
             driver.get(getUrl());
-        } else if (getBrowserName().equalsIgnoreCase("api")) {
+        }
+        else if (getBrowserName().equalsIgnoreCase("edge")) {
+            setStartTime(System.currentTimeMillis());
+            DriverFactory.setDriver(getBrowserName());
+            WebDriver driver = DriverFactory.getDriver();
+            objectInitiator(driver);
+            driver.manage().window().maximize();
+            driver.get(getUrl());
+        }
+        else if (getBrowserName().equalsIgnoreCase("api")) {
             logger.info("Before Method: API Testing Starts");
             setStartTime(System.currentTimeMillis());
             apiObjectInitiator();
@@ -96,7 +106,23 @@ public class TestBase {
                 logger.error("Error in calculateExecutionTime", e);
             }
             CustomTestListener.removeAllTests();
-        } else if (getBrowserName().equalsIgnoreCase("api")) {
+        }
+        else if (getBrowserName().equalsIgnoreCase("edge"))
+        {
+            logger.info("After Method: Quitting browser...");
+            try {
+                DriverFactory.quitDriver();
+            } catch (Exception e) {
+                logger.error("Error during driver quit", e);
+            }
+            try {
+                calculateExecutionTime(method);
+            } catch (Exception e) {
+                logger.error("Error in calculateExecutionTime", e);
+            }
+            CustomTestListener.removeAllTests();
+        }
+        else if (getBrowserName().equalsIgnoreCase("api")) {
             logger.info("After Method: API Testing Ends");
             try {
                 calculateExecutionTime(method);
